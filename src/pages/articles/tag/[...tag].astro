@@ -6,32 +6,25 @@ import type { CollectionEntry } from "astro:content";
 import { capitalize } from "../../../utils";
 
 export async function getStaticPaths() {
-  const allBlogArticles: CollectionEntry<'blog'>[] = await getCollection('blog');
-
-  // Lấy tất cả tag của tất cả bài viết, rồi loại trùng
+  const allBlogArticles = await getCollection('blog');
   const tagsSet = new Set<string>();
   allBlogArticles.forEach(article => {
     article.data.tags.forEach(tag => tagsSet.add(tag));
   });
 
-  // Trả về array các params phù hợp với catch-all route [...tag]
   return Array.from(tagsSet).map(tag => ({
-    params: {
-      tag: [tag]  // phải là mảng vì route là catch-all [...tag]
-    }
+    params: { tag }
   }));
 }
 
-const tagParam = Astro.params.tag;
-if (!tagParam || !Array.isArray(tagParam)) {
-  throw new Error('Tag param is required and must be an array');
+const { tag } = Astro.params;
+
+if (!tag) {
+  throw new Error('Tag is required');
 }
 
-// Lấy tag đầu tiên (thường bạn chỉ dùng 1 tag thôi)
-const tag = tagParam[0];
-
 const allBlogArticles: CollectionEntry<'blog'>[] = (await getCollection('blog'))
-  .sort((a:CollectionEntry<'blog'>, b:CollectionEntry<'blog'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const tagArticles = allBlogArticles.filter(article => article.data.tags.includes(tag));
 ---
