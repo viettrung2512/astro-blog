@@ -1,0 +1,34 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+<MainLayout>
+  <title>Admin Page</title>
+  <div id="admin-content" class="container mx-auto px-4 py-8 max-w-3xl">
+    <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <p>Loading...</p>
+  </div>
+
+  <script type="module">
+    window.addEventListener('DOMContentLoaded', () => {
+      const adminContent = document.getElementById('admin-content');
+      const userData = localStorage.getItem('user');
+      if (!userData) {
+        alert('You must be logged in to access this page.');
+        window.location.href = '/login';
+      } else {
+        const user = JSON.parse(userData);
+        if (user.role === 'admin') {
+          adminContent.innerHTML = `
+            <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+            <p>Welcome, ${user.username}! You have admin access.</p>
+            <!-- Add more admin content here -->
+          `;
+        } else {
+          adminContent.innerHTML = `
+            <p class="text-red-600 font-bold">Access denied. You do not have permission to view this page.</p>
+          `;
+        }
+      }
+    });
+  </script>
+</MainLayout>

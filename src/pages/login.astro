@@ -10,14 +10,14 @@ import MainLayout from "../layouts/MainLayout.astro";
       class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
     >
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-          Email
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+          Username
         </label>
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          type="email"
-          placeholder="Email"
+          id="username"
+          type="text"
+          placeholder="username"
           required
         />
       </div>
@@ -58,26 +58,26 @@ import MainLayout from "../layouts/MainLayout.astro";
     if (loginForm) {
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const emailInput = document.getElementById(
-          "email"
+        const usernameInput = document.getElementById(
+          "username"
         ) as HTMLInputElement | null;
         const passwordInput = document.getElementById(
           "password"
         ) as HTMLInputElement | null;
-        const email = emailInput ? emailInput.value : "";
+        const username = usernameInput ? usernameInput.value : "";
         const password = passwordInput ? passwordInput.value : "";
 
         // Kiểm tra thông tin từ localStorage
         const users = JSON.parse(localStorage.getItem("users") || "[]");
         const user = users.find(
           (user: { email: string; password: string; username: string }) =>
-            user.email === email && user.password === password
+            user.username === username && user.password === password
         );
 
         if (user) {
           const updatedUsers = users.map((u: { email: string; password: string; username: string; isLoggedIn?: boolean }) => ({
             ...u,
-            isLoggedIn: u.email === email ? true : false,
+            isLoggedIn: u.username === username ? true : false,
           }));
           localStorage.setItem("users", JSON.stringify(updatedUsers));
           alert(`Login success! Welcome ${user.username}`);
