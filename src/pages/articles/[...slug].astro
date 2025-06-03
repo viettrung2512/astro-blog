@@ -1,8 +1,19 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Tags from "../../components/Tags.astro";
-import { getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import { formatDate } from "../../utils";
+
+export async function getStaticPaths() {
+  const allEntries = await getCollection('blog');
+
+  return allEntries.map(entry => ({
+    params: {
+      // Vì bạn dùng [...slug], slug phải là mảng
+      slug: entry.slug.split('/'), // tách slug string thành array
+    }
+  }));
+}
 
 const { slug } = Astro.params;
 
@@ -10,7 +21,9 @@ if(slug === undefined) {
   throw new Error('Slug is required');
 }
 
-const entry = await getEntry('blog', slug);
+const slugString = Array.isArray(slug) ? slug.join('/') : slug;
+
+const entry = await getEntry('blog', slugString);
 
 if(entry === undefined) {
   return Astro.redirect('/404');
@@ -18,6 +31,7 @@ if(entry === undefined) {
 
 const { Content } = await entry.render();
 ---
+
 
 <MainLayout>
   <a href="/articles" class="inline-block bg-gray-100 p-2 mb-6 hover:bg-indigo-500 hover:text-white">Back To Articles</a>
