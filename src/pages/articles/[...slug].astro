@@ -4,14 +4,34 @@ import Tags from "../../components/Tags.astro";
 import { getEntry, getCollection } from 'astro:content';
 import { formatDate } from "../../utils";
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const allEntries = await getCollection('blog');
 
-  return allEntries.map(entry => ({
-    params: {
-      slug: entry.slug.split('/'), // slug là array vì [...slug] catch-all route
-    },
-  }));
+  return allEntries.map(entry => {
+    // Lấy slug string
+    let slugString = '';
+
+    if (typeof entry.slug === 'string') {
+      slugString = entry.slug;
+    } else if (typeof entry.slug === 'object' && entry.slug !== null) {
+      // Nếu slug là object, thử lấy current hoặc value
+      const slugObj = entry.slug as { current?: string; value?: string };
+      slugString = slugObj.current || slugObj.value || '';
+    }
+
+    // Nếu slugString rỗng, có thể skip hoặc xử lý tùy bạn
+    if (!slugString) {
+      throw new Error(`Invalid slug for entry: ${entry.id || 'unknown'}`);
+    }
+
+    return {
+      params: {
+        slug: slugString, // Use the joined string, not an array
+      }
+    };
+  });
 }
 
 const { slug } = Astro.params;
@@ -20,9 +40,8 @@ if (!slug) {
   throw new Error('Slug is required');
 }
 
-const slugString = Array.isArray(slug) ? slug.join('/') : slug;
-
-const entry = await getEntry('blog', slugString);
+// Since slug is already a string, no need to join
+const entry = await getEntry('blog', slug);
 
 if (!entry) {
   return Astro.redirect('/404');
