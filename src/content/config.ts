@@ -26,11 +26,7 @@ const blogCollection = defineCollection({
       tags: z.array(z.string())
         .default(["general"])
         .transform(arr => arr.map(tag => tag.toLowerCase())),
-      
-      description: z.string()
-        .max(160, "Mô tả không quá 160 ký tự")
-        .optional(),
-      
+          
       draft: z.boolean()
         .default(false)
         .optional()

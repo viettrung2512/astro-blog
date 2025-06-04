@@ -1,7 +1,7 @@
 backend:
   name: git-gateway
   branch: main
-  site_url: https://astro-demo3.netlify.app  # Thay your-site bằng URL thực
+  site_url: https://astro-demo3.netlify.app
   commit_messages:
     create: "Create {{collection}} '{{slug}}'"
     update: "Update {{collection}} '{{slug}}'"
@@ -21,13 +21,13 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true }
       - { label: "Pub Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", required: true }
       - { label: "Author", name: "author", widget: "string", default: "Admin", required: true }
       - { label: "Featured Image", name: "image", widget: "image", required: true }
       - { label: "Tags", name: "tags", widget: "list", default: ["general"], required: true }
-      - { label: "Description", name: "description", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" }   
+      - { label: "Body", name: "body", widget: "markdown", required: true }
     editor:
-    preview: true
-    frame: false
+      preview: true
+      frame: false
