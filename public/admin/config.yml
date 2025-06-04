@@ -41,7 +41,7 @@ collections:
         name: "image"
         widget: "image"
         required: true
-        public_folder: ""
+        public_folder: "/images"
       - {
           label: "Tags",
           name: "tags",
