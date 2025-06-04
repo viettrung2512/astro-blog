@@ -8,9 +8,7 @@ const blogCollection = defineCollection({
         .min(10, "Tiêu đề phải có ít nhất 10 ký tự")
         .max(100, "Tiêu đề không quá 100 ký tự"),
       
-      pubDate: z
-        .string()
-        .transform(str => new Date(str)),
+      pubDate: z.date(),
       
       author: z.string()
         .default("Admin")

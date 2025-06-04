@@ -1,9 +1,11 @@
 ---
-title: 'The best laptops for developers in 2025'
+title: "The best laptops for developers in 2025"
 pubDate: "2025-01-20"
-author: 'John Doe'
-image: 'image1.png'
-tags: ['tech', 'hardware']
+author: "John Doe"
+image:
+  src: "image1.png"
+  alt: "A laptop for developers"
+tags: ["tech", "hardware"]
 slug: the-best-laptops-for-developers-in-2025
 ---
 
