@@ -9,17 +9,12 @@ const blogCollection = defineCollection({
         .max(100, "Tiêu đề không quá 100 ký tự"),
       
       pubDate: z.date(),
-      
+
       author: z.string()
         .default("Admin")
         .transform(val => val.trim()),
       
-      image: z.object({
-        src: z.string(),
-        alt: z.string().optional()
-      }).or(z.string()).transform(val => 
-        typeof val === 'string' ? { src: val, alt: "" } : val
-      ),
+      image: z.string(),
       
       tags: z.array(z.string())
         .default(["general"])
