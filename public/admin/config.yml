@@ -1,8 +1,7 @@
 backend:
-  name: gitlab
-  repo: nvtrung-batch48/demo-astro-build
+  name: github
+  repo: https://github.com/viettrung2512/astro-blog
   branch: main
-  auth_type: ssh  # Hoặc dùng 'token' nếu dùng Personal Access Token
 
 media_folder: "public/images"
 public_folder: "/images"

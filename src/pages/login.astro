@@ -75,15 +75,20 @@ import MainLayout from "../layouts/MainLayout.astro";
         );
 
         if (user) {
+          // Đánh dấu user đang đăng nhập trong mảng users (nếu muốn)
           const updatedUsers = users.map((u: { email: string; password: string; username: string; isLoggedIn?: boolean }) => ({
             ...u,
             isLoggedIn: u.username === username ? true : false,
           }));
           localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+          // Lưu user đang đăng nhập vào localStorage (dùng cho kiểm tra ở admin)
+          localStorage.setItem("currentUser", JSON.stringify(user));
+
           alert(`Login success! Welcome ${user.username}`);
           window.location.href = "/";
         } else {
-          alert("Email or password is incorrect!");
+          alert("Username or password is incorrect!");
         }
       });
     }
