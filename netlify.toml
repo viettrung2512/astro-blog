@@ -1,0 +1,4 @@
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Content-Security-Policy = "script-src 'self' 'unsafe-eval' https://unpkg.com"
