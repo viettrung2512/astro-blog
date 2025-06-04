@@ -3,7 +3,7 @@ title: "How to use AI: ChatGPT, Claud, Copilot, Grok"
 slug: the-ai-laptops-for-developers-in-2025
 pubDate: 2025-06-04
 author: Trung
-image: /images/anh-avatar-bts-chibi-cute-702x580.jpg
+image: anh-avatar-bts-chibi-cute-702x580.jpg
 tags:
   - '["tech"'
   - '"hardware"]'
