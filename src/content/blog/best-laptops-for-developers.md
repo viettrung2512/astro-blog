@@ -2,7 +2,7 @@
 title: "The best laptops for developers in 2025"
 pubDate: 2025-01-20
 author: "John Doe"
-image: 'image1.png'
+image: '/image/image1.png'
 tags: ["tech", "hardware"]
 slug: the-best-laptops-for-developers-in-2025
 ---
