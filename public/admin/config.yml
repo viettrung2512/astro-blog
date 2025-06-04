@@ -28,8 +28,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image", required: true }
       - { label: "Tags", name: "tags", widget: "list", default: ["general"], required: true }
       - { label: "Body", name: "body", widget: "markdown", required: true }
-       media_folder: "public/images"
-       public_folder: "/images"
+          media_folder: "public/images"
+          public_folder: "/images"
     editor:
       preview: true
       frame: false
