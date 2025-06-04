@@ -23,10 +23,32 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string", required: true }
       - { label: "Slug", name: "slug", widget: "string", required: true }
-      - { label: "Pub Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", required: true }
-      - { label: "Author", name: "author", widget: "string", default: "Admin", required: true }
-      - { label: "Featured Image", name: "image", widget: "image", required: true }
-      - { label: "Tags", name: "tags", widget: "list", default: ["general"], required: true }
+      - {
+          label: "Pub Date",
+          name: "pubDate",
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          required: true,
+        }
+      - {
+          label: "Author",
+          name: "author",
+          widget: "string",
+          default: "Admin",
+          required: true,
+        }
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: true
+        public_folder: ""
+      - {
+          label: "Tags",
+          name: "tags",
+          widget: "list",
+          default: ["general"],
+          required: true,
+        }
       - { label: "Body", name: "body", widget: "markdown", required: true }
     editor:
       preview: true
