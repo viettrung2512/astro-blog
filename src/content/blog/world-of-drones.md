@@ -1,6 +1,6 @@
 ---
 title: 'Soaring to New Heights: The World of Drones'
-pubDate: "2025-01-16"
+pubDate: 2025-01-16
 author: 'Sarah Davis'
 image: 'image5.png'
 tags: ['drones', 'tech', 'gadgets']
