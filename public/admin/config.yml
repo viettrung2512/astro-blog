@@ -17,17 +17,17 @@ display_url: https://astro-demo3.netlify.app
 collections:
   - name: "blog"
     label: "Blog"
-    label_singular: "Post"
     folder: "src/content/blog"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    identifier_field: title
     fields:
-      - { label: "Title", name: "title", widget: "string", pattern: ["^.{10,80}$", "Tiêu đề phải từ 10-80 ký tự"] }
-      - { label: "Description", name: "description", widget: "string", required: false }
-      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
-      - { label: "Featured Image", name: "image", widget: "image", required: false }
-      - { label: "Body", name: "body", widget: "markdown", buttons: ["bold", "italic", "link", "heading-two", "quote", "code", "bulleted-list"], editor_components: ["image", "code-block"] }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Pub Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", required: true }
+      - { label: "Author", name: "author", widget: "string", default: "Admin", required: true }
+      - { label: "Featured Image", name: "image", widget: "image", required: true }
+      - { label: "Tags", name: "tags", widget: "list", default: ["general"], required: true }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }   
     editor:
-      preview: true
-      frame: false
+    preview: true
+    frame: false
