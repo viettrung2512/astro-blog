@@ -1,4 +1,4 @@
 [[headers]]
-  for = "/admin/*"
+  for = "/*"
   [headers.values]
-    Content-Security-Policy = "script-src 'self' 'unsafe-eval' https://unpkg.com"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.github.com; font-src 'self'"
