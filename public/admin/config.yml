@@ -10,7 +10,7 @@ backend:
     deleteMedia: "Delete '{{path}}'"
 
 publish_mode: editorial_workflow
-media_folder: "public/images"
+media_folder: "images"
 public_folder: "/images"
 display_url: https://astro-demo3.netlify.app
 
