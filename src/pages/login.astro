@@ -1,96 +1,13 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
+import GoogleProviderWrapper from "../components/Auth/GoogleProviderWrapper.jsx";
 ---
 
-<MainLayout title="Login">
-  <div class="container mx-auto px-4 py-8 max-w-md">
-    <h1 class="text-3xl font-bold text-center mb-6">Login</h1>
-    <form
-      id="login-form"
-      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-    >
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-          Username
-        </label>
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="username"
-          type="text"
-          placeholder="username"
-          required
-        />
-      </div>
-      <div class="mb-6">
-        <label
-          class="block text-gray-700 text-sm font-bold mb-2"
-          for="password"
-        >
-          Password
-        </label>
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
-          type="password"
-          placeholder="********"
-          required
-        />
-      </div>
-      <div class="flex items-center justify-between">
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="submit"
-        >
-          Login
-        </button>
-        <a
-          class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-          href="/signup"
-        >
-          Dont have an account? Sign Up
-        </a>
-      </div>
-    </form>
-  </div>
-
-  <script>
-    const loginForm = document.getElementById("login-form");
-    if (loginForm) {
-      loginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const usernameInput = document.getElementById(
-          "username"
-        ) as HTMLInputElement | null;
-        const passwordInput = document.getElementById(
-          "password"
-        ) as HTMLInputElement | null;
-        const username = usernameInput ? usernameInput.value : "";
-        const password = passwordInput ? passwordInput.value : "";
-
-        // Kiểm tra thông tin từ localStorage
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const user = users.find(
-          (user: { email: string; password: string; username: string }) =>
-            user.username === username && user.password === password
-        );
-
-        if (user) {
-          // Đánh dấu user đang đăng nhập trong mảng users (nếu muốn)
-          const updatedUsers = users.map((u: { email: string; password: string; username: string; isLoggedIn?: boolean }) => ({
-            ...u,
-            isLoggedIn: u.username === username ? true : false,
-          }));
-          localStorage.setItem("users", JSON.stringify(updatedUsers));
-
-          // Lưu user đang đăng nhập vào localStorage (dùng cho kiểm tra ở admin)
-          localStorage.setItem("currentUser", JSON.stringify(user));
-
-          alert(`Login success! Welcome ${user.username}`);
-          window.location.href = "/";
-        } else {
-          alert("Username or password is incorrect!");
-        }
-      });
-    }
-  </script>
-</MainLayout>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Đăng nhập</title>
+  </head>
+  <body>
+    <GoogleProviderWrapper client:load />
+  </body>
+</html>
