@@ -24,6 +24,9 @@ const LoginForm = () => {
         setError("");
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", data.username);
+        localStorage.setItem("profilePicture", data.profilePicture || "");
+        localStorage.setItem("userId", data.id);
+        localStorage.setItem("userRole", data.userRole);
         window.location.href = "/";
       } else {
         setError(data.message || "Đăng nhập thất bại");
@@ -56,6 +59,10 @@ const LoginForm = () => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username || "");
+      localStorage.setItem(
+        "profilePicture",
+        "/images/anh-avatar-bts-chibi-cute-702x580.jpg"
+      );
       window.location.href = "/";
     } catch (err) {
       console.error("Lỗi đăng nhập Google:", err);
@@ -66,15 +73,24 @@ const LoginForm = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h1 className="text-center text-3xl font-extrabold text-gray-900 mb-2">Đăng nhập</h1>
-        <p className="text-center text-sm text-gray-600">Chào mừng bạn quay lại</p>
+        <h1 className="text-center text-3xl font-extrabold text-gray-900 mb-2">
+          Đăng nhập
+        </h1>
+        <p className="text-center text-sm text-gray-600">
+          Chào mừng bạn quay lại
+        </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Tên đăng nhập</label>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Tên đăng nhập
+              </label>
               <div className="mt-1">
                 <input
                   id="username"
@@ -87,7 +103,12 @@ const LoginForm = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Mật khẩu</label>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Mật khẩu
+              </label>
               <div className="mt-1">
                 <input
                   id="password"
@@ -130,7 +151,10 @@ const LoginForm = () => {
 
           <p className="mt-6 text-sm text-center text-gray-600">
             Chưa có tài khoản?{" "}
-            <a href="/signup" className="text-blue-500 hover:text-blue-700 hover:underline">
+            <a
+              href="/signup"
+              className="text-blue-500 hover:text-blue-700 hover:underline"
+            >
               Đăng ký ngay
             </a>
           </p>
