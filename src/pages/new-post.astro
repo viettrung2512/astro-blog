@@ -1,0 +1,16 @@
+---
+export const prerender = false;
+import Navbar from "../components/Navbar.astro";
+import NewArticle from "../components/NewArticle/NewArticle.jsx";
+const token = Astro.cookies.get("token")?.value ?? null;
+---
+<html lang="en">
+  <head>
+    <Navbar/>
+    <title>Create Post</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-quill@1.3.5/dist/quill.snow.css" />
+  </head>
+  <body>
+    <NewArticle client:only token={token} />
+  </body>
+</html>
