@@ -4,6 +4,8 @@ import SearchForm from "../components/SearchForm.astro";
 import Blogs from "../components/Blog/Blogs.jsx";
 import TopAuthors from "../components/TopAuthor/TopAuthors.jsx";
 import TopBlog from "../components/PopularBlog/TopBlog.jsx";
+import TopLikedArticle from "../components/PopularBlog/TopLikedArticle.jsx";
+
 ---
 
 <MainLayout>
@@ -13,6 +15,11 @@ import TopBlog from "../components/PopularBlog/TopBlog.jsx";
         Articles, Stories & Tutorials for Tech People
       </h1>
       <SearchForm />
+    </div>
+    <div>
+      <h1 class="text-5xl font-bold mt-4 mb-8 leading-tight xl:text-6xl">
+      </h1>
+      <TopLikedArticle client:only="react" />
     </div>
   </div>
 
