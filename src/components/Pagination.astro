@@ -1,0 +1,82 @@
+---
+const { currentPage, totalPages } = Astro.props;
+
+// Tạo array của các trang cần hiển thị
+const getVisiblePages = (current: number, total: number): (number | string)[] => {
+  const delta = 2; // Số trang hiển thị mỗi bên
+  const range: number[] = [];
+  const rangeWithDots: (number | string)[] = [];
+
+  for (let i = Math.max(2, current - delta); i <= Math.min(total - 1, current + delta); i++) {
+    range.push(i);
+  }
+
+  if (current - delta > 2) {
+    rangeWithDots.push(1, '...');
+  } else {
+    rangeWithDots.push(1);
+  }
+
+  rangeWithDots.push(...range);
+
+  if (current + delta < total - 1) {
+    rangeWithDots.push('...', total);
+  } else {
+    rangeWithDots.push(total);
+  }
+
+  return rangeWithDots;
+};
+
+const visiblePages = totalPages > 1 ? getVisiblePages(currentPage, totalPages) : [];
+---
+
+{totalPages > 1 && (
+  <div class="pagination">
+    {currentPage > 1 ? (
+      <a href={`/page/${currentPage - 1}`} class="pagination-btn">
+        Previous
+      </a>
+    ) : (
+      <span class="pagination-btn disabled">
+        Previous
+      </span>
+    )}
+    
+    <div class="pagination-numbers">
+      {visiblePages.map((page, index) => {
+        if (page === '...') {
+          return (
+            <span class="pagination-dots">
+              ...
+            </span>
+          );
+        }
+        
+        const isActive = page === currentPage;
+        return (
+          <a 
+            href={`/page/${page}`} 
+            class={`pagination-number ${isActive ? 'active' : ''}`}
+          >
+            {page}
+          </a>
+        );
+      })}
+    </div>
+    
+    {currentPage < totalPages ? (
+      <a href={`/page/${currentPage + 1}`} class="pagination-btn">
+        Next
+      </a>
+    ) : (
+      <span class="pagination-btn disabled">
+        Next
+      </span>
+    )}
+    
+    <div class="pagination-info">
+      Page {currentPage} of {totalPages}
+    </div>
+  </div>
+)}

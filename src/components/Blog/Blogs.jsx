@@ -5,70 +5,58 @@ const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem("token");
 
- useEffect(() => {
-  const fetchBlogs = async () => {
-    if (!token) {
-      setError("Vui lòng đăng nhập để xem bài viết");
-      setLoading(false);
-      return;
-    }
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const response = await fetch(`http://localhost:8080/api/posts`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const response = await fetch(`http://localhost:8080/api/posts?page=0&size=6`);
+        const data = await response.json();
 
+        if (!response.ok) {
+          throw new Error(data.message || `Lỗi ${response.status}: ${response.statusText}`);
+        }
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || `Lỗi ${response.status}: ${response.statusText}`
-        );
+        const blogsArray = Array.isArray(data.content) ? data.content : [];
+        setBlogs(blogsArray);
+      } catch (error) {
+        console.error("Chi tiết lỗi:", error);
+        setError(error.message);
+        setBlogs([]);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await response.json();
-      const blogsArray = data.content || [];
-      setBlogs(blogsArray);
-    } catch (error) {
-      console.error("Chi tiết lỗi:", error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchBlogs();
-});
+    fetchBlogs();
+  }, []);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <p className="text-xl">Đang tải...</p>
-      </div>
-    );
+    return <div className="text-center py-10 text-gray-500">Đang tải bài viết...</div>;
   }
 
   if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <p className="text-red-500 text-xl">{error}</p>
-      </div>
-    );
+    return <div className="text-center py-10 text-red-500">Lỗi: {error}</div>;
+  }
+
+  if (!blogs.length) {
+    return <div className="text-center py-10 text-gray-400">Không có bài viết nào.</div>;
   }
 
   return (
-    <div className="w-full bg-gray-100 py-[50px] mt-10">
-      <div className="w-full mx-auto min-h-screen">
-        <BlogList 
-          blogs={blogs} 
-          setBlogs={setBlogs} 
-          layout="grid" // Thêm giá trị mặc định
-        />
+    <div className="w-full bg-gray-100 py-10 blogs-section">
+      <div className="max-w-7xl mx-auto px-4">
+        <BlogList blogs={blogs} setBlogs={setBlogs} layout="grid" />
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => window.location.href = "/articles"}
+            className="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          >
+            More Blogs →
+          </button>
+        </div>
       </div>
     </div>
   );
