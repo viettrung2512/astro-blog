@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const BlogCard = ({ blog, category, title }) => {
-  const navigate = useNavigate();
 
   const handleNavigation = () => {
-    navigate(`/blog/${blog._id}`);
+   window.location.href =`/blog/${blog._id}`;
   };
 
   return (

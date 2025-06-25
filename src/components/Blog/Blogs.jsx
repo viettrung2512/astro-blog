@@ -4,45 +4,71 @@ import BlogList from "./BlogList";
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/posts`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setBlogs(data);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setLoading(false);
+ useEffect(() => {
+  const fetchBlogs = async () => {
+    if (!token) {
+      setError("Vui lòng đăng nhập để xem bài viết");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/posts`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `Lỗi ${response.status}: ${response.statusText}`
+        );
       }
-    };
 
-    fetchBlogs();
-  }, [token]);
+      const data = await response.json();
+      const blogsArray = data.content || [];
+      setBlogs(blogsArray);
+    } catch (error) {
+      console.error("Chi tiết lỗi:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchBlogs();
+});
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#0E1217]">
-        <p className="text-white text-xl">Loading...</p>
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <p className="text-xl">Đang tải...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <p className="text-red-500 text-xl">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full bg-[#0E1217] py-[50px] mt-10">
+    <div className="w-full bg-gray-100 py-[50px] mt-10">
       <div className="w-full mx-auto min-h-screen">
-        <BlogList blogs={blogs} setBlogs={setBlogs} />
+        <BlogList 
+          blogs={blogs} 
+          setBlogs={setBlogs} 
+          layout="grid" // Thêm giá trị mặc định
+        />
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CommentButton from "../Button/CommentButton";
 import RelatedBlogs from "./RelatedBlogs";
@@ -16,19 +15,17 @@ import {
 } from "lucide-react";
 
 const BlogContent = () => {
-  const { id } = useParams();
+  const id = window.location.pathname.split("/").pop();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [likeCount, setLikeCount] = useState(0);
-  const navigate = useNavigate();
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchBlogData = async () => {
       const token = localStorage.getItem("token");
       setLoading(true);
       try {
-        const response = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
+        const response = await fetch(`http://localhost:8080/api/posts/${id}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,7 +33,7 @@ const BlogContent = () => {
         });
 
         if (!response.ok) {
-          navigate("/*");
+          window.location.href ="/*";
           throw new Error("Failed to fetch blog data");
         }
         let blogData = await response.json();
@@ -58,7 +55,7 @@ const BlogContent = () => {
     };
 
     fetchBlogData();
-  }, [id, navigate]);
+  }, [id]);
 
 useEffect(() => {
   let hasSaved = false;
@@ -69,7 +66,7 @@ useEffect(() => {
     if (!token) return;
 
     try {
-      await fetch(`${API_BASE_URL}/api/history/add`, {
+      await fetch(`http://localhost:8080/api/history/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +122,7 @@ useEffect(() => {
     <div className="bg-gray-50 min-h-screen pb-16">
       <div className="max-w-5xl mx-auto pt-8 px-4 sm:px-6">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => window.history.back()}
           className="flex items-center text-gray-600 hover:text-blue-600 transition-colors mb-6"
         >
           <ArrowLeft className="h-5 w-5 mr-2" />

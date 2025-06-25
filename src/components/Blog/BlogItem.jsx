@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import SaveButton from "../Button/SaveButton";
 import LikeButton from "../Button/LikeButton";
@@ -6,8 +5,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const BlogItem = ({ blog, setBlogs }) => {
-  const navigate = useNavigate();
-
   const [likes, setLikes] = useState(blog.likeCnt || 0);
   const [isLiked, setIsLiked] = useState(blog.liked ?? false);
   const [isSaved, setIsSaved] = useState(blog.saved ?? false);
@@ -19,7 +16,7 @@ const BlogItem = ({ blog, setBlogs }) => {
   }, [blog.liked, blog.saved, blog.likeCnt]);
 
   const handleNavigate = () => {
-    navigate(`/blog/${blog._id}`);
+    window.location.href =`/articles/${blog._id}`;
   };
 
   return (
@@ -119,7 +116,7 @@ BlogItem.propTypes = {
       username: PropTypes.string,
     }),
   }).isRequired,
-  setBlogs: PropTypes.func,
+  setBlogs: PropTypes.funcisRequired,
 };
 
 export default BlogItem;

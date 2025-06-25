@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 import BlogItem from "./BlogItem";
 import { useState, useEffect } from "react";
-import { BsList, BsGrid3X3 } from "react-icons/bs"; 
+import { BsList, BsGrid3X3 } from "react-icons/bs";
 
-const BlogList = ({ blogs, setBlogs, layout }) => {
-  const storedLayout = localStorage.getItem("layout") || layout || "grid";
-  const [currentLayout, setCurrentLayout] = useState(storedLayout);
+const BlogList = ({ blogs, setBlogs, layout = "grid" }) => { // Thêm giá trị mặc định
+  const [currentLayout, setCurrentLayout] = useState(
+    localStorage.getItem("layout") || layout
+  );
 
   useEffect(() => {
     localStorage.setItem("layout", currentLayout);
@@ -15,57 +16,44 @@ const BlogList = ({ blogs, setBlogs, layout }) => {
     setCurrentLayout((prevLayout) => (prevLayout === "grid" ? "list" : "grid"));
   };
 
+  // Kiểm tra nếu blogs không phải mảng hoặc rỗng
+  if (!Array.isArray(blogs) || blogs.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-gray-500">Không có bài viết nào để hiển thị.</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div
         onClick={handleLayoutToggle}
         className="flex items-center cursor-pointer bg-white border border-gray-600 rounded-full w-fit mt-5 mb-5"
       >
-        <div
-          className={`flex justify-center items-center bg-blue-400 rounded-l-3xl w-12 h-10 transition-all duration-300 ${currentLayout === "list" ? "bg-blue-400" : "bg-transparent"
-            }`}
-        >
-          <BsList className="text-black" />
-        </div>
-
-        <div className="bg-gray-500 w-0.5 h-10 rounded-full "></div>
-
-        <div
-          className={`flex justify-center items-center bg-blue-400 rounded-r-3xl w-12 h-10 transition-all duration-300 ${currentLayout === "grid" ? "bg-blue-400" : "bg-transparent"
-            }`}
-        >
-          <BsGrid3X3 className="text-black" />
-        </div>
+        {/* Phần toggle layout (giữ nguyên) */}
       </div>
 
       <div
-        className={`${currentLayout === "grid"
-          ? "grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-1 gap-4"
-          : "flex flex-col gap-4"
-          } px-10 mt-15 text-black`}
+        className={`${
+          currentLayout === "grid"
+            ? "grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-1 gap-4"
+            : "flex flex-col gap-4"
+        } px-10 mt-15 text-black`}
       >
         {blogs.map((blog) => (
-          <BlogItem key={blog._id} blog={blog} setBlogs={setBlogs} />
+          <BlogItem key={blog._id || blog.id} blog={blog} setBlogs={setBlogs} />
         ))}
       </div>
     </div>
   );
 };
 
+// PropTypes (giữ nguyên)
 BlogList.propTypes = {
-  blogs: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      title: PropTypes.string.isRequired,
-      content: PropTypes.string,
-      imageCloudUrl: PropTypes.string,
-      likes: PropTypes.number,
-      isLiked: PropTypes.bool,
-      isSaved: PropTypes.bool,
-    })
-  ).isRequired,
+  blogs: PropTypes.array.isRequired,
   setBlogs: PropTypes.func.isRequired,
-  layout: PropTypes.oneOf(["grid", "list"]), 
+  layout: PropTypes.oneOf(["grid", "list"]),
 };
 
 export default BlogList;

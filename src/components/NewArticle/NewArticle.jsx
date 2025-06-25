@@ -337,7 +337,7 @@ const NewPost = ({ token }) => {
         <div>
           <label
             htmlFor="tags"
-            className="block text-sm font-medium text-gray-700 mb-1 flex items-center"
+            className=" text-sm font-medium text-gray-700 mb-1 items-center"
           >
             <Tag className="w-4 h-4 mr-1" /> Tags{" "}
             <span className="text-gray-500 text-xs ml-1">
