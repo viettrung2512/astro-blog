@@ -116,7 +116,7 @@ BlogItem.propTypes = {
       username: PropTypes.string,
     }),
   }).isRequired,
-  setBlogs: PropTypes.funcisRequired,
+  setBlogs: PropTypes.func.isRequired,
 };
 
 export default BlogItem;

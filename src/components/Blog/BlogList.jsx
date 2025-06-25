@@ -42,7 +42,7 @@ const BlogList = ({ blogs, setBlogs, layout = "grid" }) => { // Thêm giá trị
         } px-10 mt-15 text-black`}
       >
         {blogs.map((blog) => (
-          <BlogItem key={blog._id || blog.id} blog={blog} setBlogs={setBlogs} />
+          <BlogItem key={blog.id} blog={blog} setBlogs={setBlogs} />
         ))}
       </div>
     </div>

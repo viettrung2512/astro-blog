@@ -1,42 +1,11 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import BlogsPaginated from "../../components/Blog/BlogsPaginated.jsx";
-
-// Lấy `page` từ URL (nếu có), mặc định là 1
-const currentPage = Astro.url.searchParams.get("page") || 1;
-const totalPages = 5; // bạn có thể hardcode hoặc lấy từ CMS nếu cần
 ---
 
 <MainLayout title="Tất cả bài viết">
   <div class="mt-10">
     <h1 class="text-3xl font-bold text-center mb-6">Tất cả bài viết</h1>
-    <BlogsPaginated client:only="react" currentPage={Number(currentPage)} />
-  </div>
-
-  <div class="mt-8 flex justify-center">
-    {totalPages > 1 && (
-      <nav class="flex gap-2 text-sm">
-        {Number(currentPage) > 1 ? (
-          <a href={`/articles?page=${Number(currentPage) - 1}`} class="px-3 py-1 border rounded hover:bg-gray-100">Prev</a>
-        ) : (
-          <span class="px-3 py-1 border rounded text-gray-400">Prev</span>
-        )}
-
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-          <a
-            href={`/articles?page=${page}`}
-            class={`px-3 py-1 border rounded ${Number(currentPage) === page ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'}`}
-          >
-            {page}
-          </a>
-        ))}
-
-        {Number(currentPage) < totalPages ? (
-          <a href={`/articles?page=${Number(currentPage) + 1}`} class="px-3 py-1 border rounded hover:bg-gray-100">Next</a>
-        ) : (
-          <span class="px-3 py-1 border rounded text-gray-400">Next</span>
-        )}
-      </nav>
-    )}
+    <BlogsPaginated client:only="react" />
   </div>
 </MainLayout>
