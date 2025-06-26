@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import logo from "../images/logo.png";
+import logo from "../../images/logo.png";
+import Search from "../Layout/Search";
 ---
 
 <nav class="bg-gray-900 text-white">
@@ -19,6 +20,12 @@ import logo from "../images/logo.png";
         ><span class="text-indigo-400">Tech</span>People</span
       >
     </a>
+
+        <div class="hidden md:block w-96">
+      <Search client:only="react" />
+    </div>
+
+
     <button
       data-collapse-toggle="navbar-default"
       type="button"

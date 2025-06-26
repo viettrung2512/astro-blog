@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import { capitalize } from "../utils";
 
 const allBlogArticles: CollectionEntry<"blog">[] = await getCollection("blog");
 
@@ -23,18 +22,7 @@ const uniqueTags: string[] = [...new Set(tags)];
           advancements.
         </p>
       </div>
-      <div class="mt-10">
-        <h3 class="text-xl font-semibold mb-4">Categories</h3>
-        <ul class="text-white text-sm">
-          {
-            uniqueTags.map((tag) => (
-              <li class="mb-2">
-                <a href={"/articles/tag/" + tag}>#{capitalize(tag)}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      
       <div class="mt-10">
         <h3 class="text-xl font-semibold mb-4">Contact</h3>
         <ul class="text-white text-sm">
