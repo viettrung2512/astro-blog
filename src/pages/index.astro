@@ -6,7 +6,7 @@ import TopBlog from "../components/PopularBlog/TopBlog.jsx";
 import TopLikedArticle from "../components/PopularBlog/TopLikedArticle.jsx";
 ---
 
-<MainLayout>
+<MainLayout>  
   
   <!-- Hero Section với gradient background -->
   <section class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 py-16 lg:py-24">
@@ -83,7 +83,7 @@ import TopLikedArticle from "../components/PopularBlog/TopLikedArticle.jsx";
           <p class="text-gray-600 text-lg">Most read articles by our community</p>
         </div>
         
-        <button class="hidden sm:flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors font-medium">
+        <button onclick="window.location.href='/popularblog'" class="hidden sm:flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors font-medium">
           View All
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -136,7 +136,7 @@ import TopLikedArticle from "../components/PopularBlog/TopLikedArticle.jsx";
           <p class="text-gray-600 text-lg">Fresh content from our community</p>
         </div>
         
-        <button class="hidden sm:flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium shadow-lg">
+        <button onclick="window.location.href='/articles'" class="hidden sm:flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium shadow-lg">
           View All Articles
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

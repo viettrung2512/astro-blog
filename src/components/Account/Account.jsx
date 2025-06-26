@@ -40,7 +40,7 @@ const AccountDetailPage = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+        const response = await fetch(`http://localhost:8080/api/users/me`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -123,7 +123,7 @@ const AccountDetailPage = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users`, {
+      const response = await fetch(`http://localhost:8080/api/users`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

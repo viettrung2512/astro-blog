@@ -65,42 +65,8 @@ const PopularBlog = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen text-gray-900">
-
       <main className="flex">
-        <section className="flex-1 p-6 max-w-6xl mx-auto">
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 mb-8 mt-16 shadow-lg text-white">
-            <div className="flex items-center mb-4">
-              <TrendingUp className="w-8 h-8 mr-3" />
-              <h1 className="text-3xl font-bold">Popular Posts</h1>
-            </div>
-            <p className="text-indigo-100 max-w-2xl">
-              Discover the most liked and trending content from our community. These posts have captured the attention
-              of readers worldwide.
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {["all", "week", "month", "year"].map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setTimeFilter(filter)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    timeFilter === filter
-                      ? "bg-white text-indigo-600"
-                      : "bg-indigo-700 text-white hover:bg-indigo-800"
-                  }`}
-                >
-                  {filter === "all"
-                    ? "All Time"
-                    : filter === "week"
-                    ? "This Week"
-                    : filter === "month"
-                    ? "This Month"
-                    : "This Year"}
-                </button>
-              ))}
-            </div>
-          </div>
-
+        <section className="flex-1  max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center">
               <Filter className="w-5 h-5 text-gray-500 mr-2" />

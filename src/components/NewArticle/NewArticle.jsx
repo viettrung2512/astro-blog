@@ -19,7 +19,6 @@ const NewPost = ({ token }) => {
   const [errors, setErrors] = useState({});
   const [isDragging, setIsDragging] = useState(false);
   const [wordCount, setWordCount] = useState(0);
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const popularCategories = [
     "Technology",
@@ -201,7 +200,7 @@ const NewPost = ({ token }) => {
     };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/posts`, {
+      const response = await fetch(`http://localhost:8080/api/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -2,7 +2,6 @@ import { FaHeart } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const LikeButton = ({
   blogId,
@@ -25,7 +24,7 @@ const LikeButton = ({
 
     if (isProcessing) return;
 
-    const url = `${API_BASE_URL}/api/likes/post/${blogId}`;
+    const url = `http://localhost:8080/api/likes/post/${blogId}`;
     const method = isLiked ? "DELETE" : "POST";
 
     try {

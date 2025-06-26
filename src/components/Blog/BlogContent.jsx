@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import CommentButton from "../Button/CommentButton";
 import RelatedBlogs from "./RelatedBlogs";
 import DOMPurify from "dompurify";
-import BlogAudio from "../Button/BlogAudio";
 import ReportButton from "../Button/ReportButton";
 import {
   ArrowLeft,
@@ -206,20 +205,6 @@ useEffect(() => {
                   "--tw-prose-links": "#2563eb",
                 }}
               />
-            </div>
-
-            <div className="mt-10 pt-6 border-t border-gray-200">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div className="flex space-x-4">
-                  <BlogAudio blogText={blog.content} />
-                  <ReportButton
-                    reportText={blog.content}
-                    id={blog._id}
-                    type={"Post"}
-                    message={"Report Post"}
-                  />
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -1,18 +1,16 @@
-
 import BlogCard from "./BlogCard";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 const RelatedBlogs = ({ tag, postId }) => {
   const [blogs, setBlogs] = useState(null);
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchBlogData = async () => {
       const token = localStorage.getItem("token");
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/posts/related/${tag}/${postId}`,
+          `http://localhost:8080/api/posts/related/${tag}/${postId}`,
           {
             method: "GET",
             headers: {
@@ -41,7 +39,7 @@ const RelatedBlogs = ({ tag, postId }) => {
 
   return (
     <div className="related-blogs text-lg">
-      <div className="blogs-container flex flex-wrap gap-4">
+      <div className="blogs-container flex flex-wrap gap-4 items-stretch">
         {blogs?.map((blog) => (
           <BlogCard
             key={blog._id}

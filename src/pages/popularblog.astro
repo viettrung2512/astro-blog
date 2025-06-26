@@ -1,6 +1,6 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import SearchForm from "../components/SearchForm.astro";
+import Search from "../components/Layout/Search";
 import PopularBlog from "../components/PopularBlog/PopularBlog.jsx";
 ---
 
@@ -10,7 +10,7 @@ import PopularBlog from "../components/PopularBlog/PopularBlog.jsx";
       <h1 class="text-5xl font-bold mt-4 mb-8 leading-tight xl:text-6xl">
         Articles, Stories & Tutorials for Tech People
       </h1>
-      <SearchForm />
+      <Search client:only="react"/>
     </div>
   </div>
 

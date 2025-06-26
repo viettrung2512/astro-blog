@@ -3,12 +3,12 @@
 import PropTypes from "prop-types"
 import { useState } from "react"
 
-const BlogCard = ({ blog, category, title, excerpt, readTime, publishedAt }) => {
+const BlogCard = ({ blog, category, title, excerpt, readTime, publishedAt, minHeightClass = "min-h-[500px]" }) => {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
 
   const handleNavigation = () => {
-    window.location.href = `/blog/${blog._id}`
+    window.location.href = `/articles/${blog._id}`
   }
 
   const handleImageLoad = () => {
@@ -33,7 +33,7 @@ const BlogCard = ({ blog, category, title, excerpt, readTime, publishedAt }) => 
   return (
     <article
       onClick={handleNavigation}
-      className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-gray-200 hover:-translate-y-2 w-full max-w-sm"
+      className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-gray-200 hover:-translate-y-2 w-full max-w-sm ${minHeightClass}`}
     >
       {/* Image Container with Overlay */}
       <div className="relative overflow-hidden">

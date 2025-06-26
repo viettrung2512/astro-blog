@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { FaBookmark } from "react-icons/fa";
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SaveButton = ({ blog, setBlogs, isSaved, setIsSaved }) => {
   const token = localStorage.getItem("token");
@@ -14,7 +13,7 @@ const SaveButton = ({ blog, setBlogs, isSaved, setIsSaved }) => {
       return;
     }
 
-    const url = `${API_BASE_URL}/bookmarks/post/${blog._id}`;
+    const url = `http://localhost:8080/bookmarks/post/${blog._id}`;
     const method = isSaved ? "DELETE" : "POST";
 
     try {

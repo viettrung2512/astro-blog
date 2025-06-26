@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { FaUserPlus, FaUserTimes } from "react-icons/fa";
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const FollowButton = ({ userId, isFollowing, setIsFollowing, onFollowChange }) => {
     const token = localStorage.getItem("token");
@@ -17,7 +16,7 @@ const FollowButton = ({ userId, isFollowing, setIsFollowing, onFollowChange }) =
             return;
         }
 
-        const url = `${API_BASE_URL}/api/follows/${userId}`;
+        const url = `http://localhost:8080/api/follows/${userId}`;
         const method = isFollowing ? "DELETE" : "POST";
 
         try {

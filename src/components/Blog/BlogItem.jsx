@@ -55,7 +55,7 @@ const BlogItem = ({ blog, setBlogs }) => {
       className="group block cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01]"
       onClick={handleNavigate}
     >
-      <div className="relative flex items-stretch bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100 hover:border-blue-200 transition-all duration-500 min-h-[200px] backdrop-blur-sm">
+      <div className="relative flex items-stretch bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100 hover:border-blue-200 transition-all duration-500 min-h-[500px] backdrop-blur-sm">
         {/* Image Section */}
         <div className="relative flex-shrink-0 w-2/5 overflow-hidden">
           {/* Loading Skeleton */}
@@ -110,7 +110,6 @@ const BlogItem = ({ blog, setBlogs }) => {
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              {estimateReadTime(blog.content)} phút đọc
             </span>
           </div>
         </div>
