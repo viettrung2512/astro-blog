@@ -1,0 +1,10 @@
+---
+import TopLikedArticle from "./TopLikedArticle.jsx";
+
+const response = await fetch("http://localhost:8080/api/posts/most-liked");
+const data = await response.json();
+const list = Array.isArray(data) ? data : data.content || [];
+const topArticle = list.length > 0 ? list.sort((a, b) => b.likeCount - a.likeCount)[0] : null;
+---
+
+{topArticle ? <TopLikedArticle blog={topArticle} /> : <p>Không có bài viết nổi bật.</p>}
