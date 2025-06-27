@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
+import LoadingSpinner from "../LoadingSpinner";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,11 +13,15 @@ const Blogs = () => {
       setError(null);
 
       try {
-        const response = await fetch(`http://localhost:8080/api/posts?page=0&size=6`);
+        const response = await fetch(
+          `http://localhost:8080/api/posts?page=0&size=6`
+        );
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.message || `Lỗi ${response.status}: ${response.statusText}`);
+          throw new Error(
+            data.message || `Lỗi ${response.status}: ${response.statusText}`
+          );
         }
 
         const blogsArray = Array.isArray(data.content) ? data.content : [];
@@ -34,7 +39,7 @@ const Blogs = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-10 text-gray-500">Đang tải bài viết...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -42,21 +47,17 @@ const Blogs = () => {
   }
 
   if (!blogs.length) {
-    return <div className="text-center py-10 text-gray-400">Không có bài viết nào.</div>;
+    return (
+      <div className="text-center py-10 text-gray-400">
+        Không có bài viết nào.
+      </div>
+    );
   }
 
   return (
-    <div className="w-full bg-gray-100 py-10 blogs-section">
-      <div className="max-w-7xl mx-auto px-4">
-        <BlogList blogs={blogs} setBlogs={setBlogs} layout="grid" />
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={() => window.location.href = "/articles"}
-            className="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-          >
-            More Blogs →
-          </button>
-        </div>
+    <div className="blogs-section">
+      <BlogList blogs={blogs} setBlogs={setBlogs} layout="grid" />
+      <div className="flex justify-center mt-8">
       </div>
     </div>
   );

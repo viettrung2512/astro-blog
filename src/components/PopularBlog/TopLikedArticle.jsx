@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import LoadingSpinner from "../LoadingSpinner";
 
 const TopLikedArticle = () => {
   const [article, setArticle] = useState(null);
@@ -7,7 +8,9 @@ const TopLikedArticle = () => {
   useEffect(() => {
     const fetchTopLiked = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/posts/most-liked");
+        const response = await fetch(
+          "http://localhost:8080/api/posts/most-liked"
+        );
         const data = await response.json();
         const list = Array.isArray(data) ? data : data.content || [];
 
@@ -25,13 +28,16 @@ const TopLikedArticle = () => {
     fetchTopLiked();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   if (!article) return <p>Không có bài viết nổi bật.</p>;
 
   return (
     <div
       className="relative inline-block w-full sm:w-auto cursor-pointer rounded-2xl"
-      onClick={() => window.location.href = `/articles/${article._id}`}
+      onClick={() => (window.location.href = `/articles/${article._id}`)}
     >
       <img
         src={article.imageCloudUrl || "/placeholder.jpg"}
@@ -62,4 +68,4 @@ const TopLikedArticle = () => {
   );
 };
 
-export default TopLikedArticle
+export default TopLikedArticle;

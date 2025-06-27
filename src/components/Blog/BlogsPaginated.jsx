@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BlogList from "./BlogList";
+import LoadingSpinner from "../LoadingSpinner";
 
 const BlogsPaginated = () => {
   const [blogs, setBlogs] = useState([]);
@@ -38,10 +39,10 @@ const BlogsPaginated = () => {
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
   return (
-    <div className="w-full bg-gray-100 py-[50px] mt-10">
-      <div className="max-w-7xl mx-auto">
+    <div className="blogs-section">
+      <div className="">
         {loading ? (
-          <div className="text-center">Đang tải bài viết...</div>
+          <LoadingSpinner />
         ) : currentBlogs.length > 0 ? (
           <>
             <BlogList blogs={currentBlogs} setBlogs={() => {}} layout="grid" />

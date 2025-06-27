@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import CommentButton from "../Button/CommentButton";
 import RelatedBlogs from "./RelatedBlogs";
 import DOMPurify from "dompurify";
-import ReportButton from "../Button/ReportButton";
+import LoadingSpinner from "../LoadingSpinner";
 import {
   ArrowLeft,
   Calendar,
@@ -32,7 +32,7 @@ const BlogContent = () => {
         });
 
         if (!response.ok) {
-          window.location.href ="/*";
+          window.location.href = "/*";
           throw new Error("Failed to fetch blog data");
         }
         let blogData = await response.json();
@@ -56,33 +56,33 @@ const BlogContent = () => {
     fetchBlogData();
   }, [id]);
 
-useEffect(() => {
-  let hasSaved = false;
-  const saveHistory = async () => {
-    if (hasSaved) return;
-    hasSaved = true;
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  useEffect(() => {
+    let hasSaved = false;
+    const saveHistory = async () => {
+      if (hasSaved) return;
+      hasSaved = true;
+      const token = localStorage.getItem("token");
+      if (!token) return;
 
-    try {
-      await fetch(`http://localhost:8080/api/history/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          postId: id, 
-          description: "Viewed the post",
-        }),
-      });
-    } catch (error) {
-      console.error("Failed to save history:", error);
-    }
-  };
+      try {
+        await fetch(`http://localhost:8080/api/history/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            postId: id,
+            description: "Viewed the post",
+          }),
+        });
+      } catch (error) {
+        console.error("Failed to save history:", error);
+      }
+    };
 
-  saveHistory();
-}, [id]); 
+    saveHistory();
+  }, [id]);
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -102,17 +102,7 @@ useEffect(() => {
   };
 
   if (loading) {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
-        <div className="w-16 h-16 relative">
-          <div className="w-16 h-16 rounded-full absolute border-4 border-gray-200"></div>
-          <div className="w-16 h-16 rounded-full animate-spin absolute border-4 border-blue-600 border-t-transparent"></div>
-        </div>
-        <p className="mt-4 text-gray-600 text-lg font-medium">
-          Loading article...
-        </p>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const sanitizedContent = DOMPurify.sanitize(blog.content);

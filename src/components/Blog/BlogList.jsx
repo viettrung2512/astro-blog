@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import BlogItem from "./BlogItem";
 import { useState, useEffect } from "react";
-import { BsList, BsGrid3X3 } from "react-icons/bs";
 
-const BlogList = ({ blogs, setBlogs, layout = "grid" }) => { // Thêm giá trị mặc định
+const BlogList = ({ blogs, setBlogs, layout = "grid" }) => {
+  // Thêm giá trị mặc định
   const [currentLayout, setCurrentLayout] = useState(
     localStorage.getItem("layout") || layout
   );
@@ -37,9 +37,9 @@ const BlogList = ({ blogs, setBlogs, layout = "grid" }) => { // Thêm giá trị
       <div
         className={`${
           currentLayout === "grid"
-            ? "grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-1 gap-4"
-            : "flex flex-col gap-4"
-        } px-10 mt-15 text-black`}
+            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+            : "flex flex-col gap-4 w-full"
+        } mx-0 px-4 sm:px-6 md:px-8 lg:px-10`}
       >
         {blogs.map((blog) => (
           <BlogItem key={blog.id} blog={blog} setBlogs={setBlogs} />

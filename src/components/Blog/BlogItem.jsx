@@ -43,12 +43,6 @@ const BlogItem = ({ blog, setBlogs }) => {
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text
   }
 
-  const estimateReadTime = (content) => {
-    if (!content) return 1
-    const wordsPerMinute = 200
-    const wordCount = content.split(" ").length
-    return Math.max(1, Math.ceil(wordCount / wordsPerMinute))
-  }
 
   return (
     <article
@@ -98,20 +92,6 @@ const BlogItem = ({ blog, setBlogs }) => {
               {blog.category}
             </span>
           </div>
-
-          {/* Reading Time Badge */}
-          <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-            <span className="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-black/60 backdrop-blur-md rounded-full border border-white/20">
-              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </span>
-          </div>
         </div>
 
         {/* Content Section */}
@@ -140,21 +120,6 @@ const BlogItem = ({ blog, setBlogs }) => {
             >
               {blog.title}
             </h3>
-
-            {/* Content Preview */}
-            {blog.content && (
-              <p
-                className="text-gray-600 text-base leading-relaxed"
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {truncateText(blog.content, 150)}
-              </p>
-            )}
 
             {/* Tags/Keywords (if available) */}
             <div className="flex flex-wrap gap-2 pt-2">
