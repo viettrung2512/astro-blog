@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import LoadingSpinner from "../LoadingSpinner";
 
 const TopLikedArticle = () => {
   const [article, setArticle] = useState(null);
@@ -29,7 +28,11 @@ const TopLikedArticle = () => {
   }, []);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex justify-center items-center h-40 absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+        <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   if (!article) return <p>Không có bài viết nổi bật.</p>;
