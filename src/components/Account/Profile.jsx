@@ -24,6 +24,8 @@ const ProfilePage = ({ userId }) => {
   const [myPosts, setMyPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [userError, setUserError] = useState(null);
+  const [postsError, setPostsError] = useState(null);
   const [isFollowersModalOpen, setIsFollowersModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -63,8 +65,11 @@ const ProfilePage = ({ userId }) => {
           const data = await response.json();
           setUser(data);
           setIsFollowing(data.amIFollowing);
+          setUserError(null);
         } else {
-          console.error("Error fetching user information");
+          const errorData = await response.json();
+          setUserError(errorData.message || "Error fetching user information");
+          console.error("Error fetching user information:", errorData);
         }
       } catch (error) {
         console.error("API connection error:", error);
@@ -91,10 +96,14 @@ const ProfilePage = ({ userId }) => {
             _id: post._id || post.id,
           }));
           setMyPosts(postsWithId);
+          setPostsError(null);
         } else {
-          console.error("Error fetching posts:", await response.json());
+          const errorData = await response.json();
+          setPostsError(errorData.message || "Error fetching posts");
+          console.error("Error fetching posts:", errorData);
         }
       } catch (error) {
+        setPostsError(error.message || "API connection error");
         console.error("API connection error:", error);
       } finally {
         setLoading(false);
@@ -168,7 +177,7 @@ const ProfilePage = ({ userId }) => {
               <div className="w-full h-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500"></div>
             </div>
             <button
-              onClick={() => window.location.href(-1)}
+              onClick={() => window.history.back()}
               className="absolute top-4 left-4 bg-white/20 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-white/30 transition-all shadow-md"
               aria-label="Go back"
             >
@@ -363,39 +372,43 @@ const ProfilePage = ({ userId }) => {
 
           {activeTab === "posts" ? (
             <>
-              {loading ? (
-                <div className="flex justify-center items-center my-16">
-                  <div className="relative">
-                    <div className="w-12 h-12 rounded-full absolute border-4 border-gray-200"></div>
-                    <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-purple-600 border-t-transparent"></div>
-                  </div>
-                  <p className="ml-4 text-gray-600 text-lg font-medium">
-                    Loading posts...
-                  </p>
-                </div>
-              ) : myPosts.length > 0 ? (
-                <BlogList blogs={myPosts} setBlogs={setMyPosts} />
-              ) : (
-                <div className="bg-white rounded-xl shadow-md p-12 text-center">
-                  <div className="w-24 h-24 mx-auto bg-purple-50 rounded-full flex items-center justify-center mb-6">
-                    <BookOpen className="h-12 w-12 text-purple-300" />
-                  </div>
-                  <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-                    No posts yet
-                  </h3>
-                  <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                    {user?.name || "This user"} hasnt published any posts yet.
-                    Check back later for new content.
-                  </p>
-                  <button
-                    onClick={() => (window.location.href = "/")}
-                    className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors shadow-md"
-                  >
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Explore other posts
-                  </button>
-                </div>
-              )}
+          {loading ? (
+            <div className="flex justify-center items-center my-16">
+              <div className="relative">
+                <div className="w-12 h-12 rounded-full absolute border-4 border-gray-200"></div>
+                <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-purple-600 border-t-transparent"></div>
+              </div>
+              <p className="ml-4 text-gray-600 text-lg font-medium">
+                Loading posts...
+              </p>
+            </div>
+          ) : postsError ? (
+            <div className="text-red-600 text-center my-8 font-semibold">
+              {postsError}
+            </div>
+          ) : myPosts.length > 0 ? (
+            <BlogList blogs={myPosts} setBlogs={setMyPosts} />
+          ) : (
+            <div className="bg-white rounded-xl shadow-md p-12 text-center">
+              <div className="w-24 h-24 mx-auto bg-purple-50 rounded-full flex items-center justify-center mb-6">
+                <BookOpen className="h-12 w-12 text-purple-300" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                No posts yet
+              </h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                {user?.name || "This user"} hasnt published any posts yet.
+                Check back later for new content.
+              </p>
+              <button
+                onClick={() => (window.location.href = "/")}
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors shadow-md"
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                Explore other posts
+              </button>
+            </div>
+          )}
             </>
           ) : (
             <div className="bg-white rounded-xl shadow-md p-8">
@@ -487,7 +500,7 @@ const ProfilePage = ({ userId }) => {
 
       {!loading && !user && (
         <div className="text-center text-red-500 font-semibold my-8">
-          Không tìm thấy người dùng hoặc đường dẫn không hợp lệ.
+          {userError || "Không tìm thấy người dùng hoặc đường dẫn không hợp lệ."}
         </div>
       )}
     </div>
