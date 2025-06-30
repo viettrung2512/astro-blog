@@ -21,10 +21,9 @@ import Search from "../Layout/Search";
       >
     </a>
 
-        <div class="hidden md:block w-96">
+    <div class="hidden md:block w-96">
       <Search client:only="react" />
     </div>
-
 
     <button
       data-collapse-toggle="navbar-default"
@@ -102,22 +101,38 @@ import Search from "../Layout/Search";
             >Admin</a
           >
         </li>
-        <li id="user-avatar" class="hidden">
-          <img
-            id="profile-img"
-            src="/images/image1.png"
-            alt="Avatar"
-            class="w-8 h-8 rounded-full border-2 border-indigo-400 object-cover"
-          />
-        </li>
-
-        <li id="logout-link" class="hidden">
-          <button
-            id="logout-button"
-            class="block py-2 px-3 text-white rounded md:p-0 hover:text-indigo-400 w-full text-left"
-          >
-            Logout
+        <li id="user-dropdown" class="relative hidden">
+          <button id="dropdown-toggle">
+            <img
+              id="profile-img"
+              src="/images/image1.png"
+              alt="Avatar"
+              class="w-8 h-8 rounded-full border-2 border-indigo-400 object-cover"
+            />
           </button>
+          <div
+            id="dropdown-menu"
+            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 hidden z-50"
+          >
+            <a
+              id="profile-link"
+              href="#"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+            >
+              Profile
+            </a>
+            <a
+              href="/account"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >Account Settings</a
+            >
+            <button
+              id="dropdown-logout"
+              class="w-full text-left block px-4 py-2 text-red-600 hover:bg-gray-100"
+            >
+              Logout
+            </button>
+          </div>
         </li>
       </ul>
     </div>
