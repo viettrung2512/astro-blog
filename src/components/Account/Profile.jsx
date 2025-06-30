@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import BlogList from "../../../components/Blog/BlogList";
-import NavBar from "../../../components/Header/NavBar";
-import SideBar from "../../../components/Sidebar/SideBar";
-import FollowButton from "../../../components/Button/FollowButton";
+import BlogList from "../Blog/BlogList";
+import FollowButton from "../Button/FollowButton";
 import {
   Users,
   UserPlus,
@@ -22,8 +20,7 @@ import {
   Settings,
 } from "lucide-react";
 
-const ProfilePage = () => {
-  const { userId } = useParams();
+const ProfilePage = ({ userId }) => {
   const [myPosts, setMyPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -164,21 +161,12 @@ const ProfilePage = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen text-gray-900">
-      <header className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
-        <NavBar />
-      </header>
-
       <div className="flex pt-16">
-        <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] bg-gray-900 w-60 z-40 shadow-lg">
-          <SideBar />
-        </aside>
-
         <div className="ml-60 flex-grow p-6">
           <div className="relative mb-8">
             <div className="h-72 rounded-xl overflow-hidden shadow-lg">
               <div className="w-full h-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500"></div>
             </div>
-
             <button
               onClick={() => window.location.href(-1)}
               className="absolute top-4 left-4 bg-white/20 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-white/30 transition-all shadow-md"
@@ -399,13 +387,13 @@ const ProfilePage = () => {
                     {user?.name || "This user"} hasnt published any posts yet.
                     Check back later for new content.
                   </p>
-                  <Link
-                    to="/"
+                  <button
+                    onClick={() => (window.location.href = "/")}
                     className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors shadow-md"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
                     Explore other posts
-                  </Link>
+                  </button>
                 </div>
               )}
             </>
@@ -438,8 +426,8 @@ const ProfilePage = () => {
                             ).toLocaleDateString()}
                           </span>
                         </div>
-                        <Link
-                          to={`/blog/${post._id}`}
+                        <div
+                           onClick={() => (window.location.href = `/blog/${post._id}`)}
                           className="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-100"
                         >
                           <p className="font-medium text-purple-600">
@@ -455,7 +443,7 @@ const ProfilePage = () => {
                               {post.commentCount || 0} comments
                             </span>
                           </div>
-                        </Link>
+                        </div>
                       </div>
                     </div>
                   ))
@@ -514,7 +502,7 @@ const FollowersModal = ({ title, onClose, items, loading }) => {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      window.location.href=`/profile/${authorId}`;
+      window.location.href = `/profile/${authorId}`;
     } catch (error) {
       console.error("Error while navigating:", error);
     } finally {
@@ -631,6 +619,9 @@ const FollowersModal = ({ title, onClose, items, loading }) => {
       </div>
     </div>
   );
+};
+ProfilePage.propTypes = {
+  userId: PropTypes.string.isRequired,
 };
 
 FollowersModal.propTypes = {
