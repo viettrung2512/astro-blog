@@ -79,23 +79,6 @@ const BlogCard = ({ blog, category, title, excerpt, readTime, publishedAt, minHe
             </div>
           </div>
         )}
-
-        {/* Read Time Badge */}
-        {readTime && (
-          <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-black/50 backdrop-blur-sm rounded-full">
-              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              {readTime} phút đọc
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Content Section */}
@@ -191,7 +174,7 @@ BlogCard.propTypes = {
       username: PropTypes.string,
       profilePicture: PropTypes.string,
     }),
-    imageCloudUrl: PropTypes.string.isRequired,
+    imageCloudUrl: PropTypes.string,
     likes: PropTypes.number,
     views: PropTypes.number,
     comments: PropTypes.number,

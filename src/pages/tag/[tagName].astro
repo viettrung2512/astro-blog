@@ -1,0 +1,53 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import BlogCard from "../../components/Blog/BlogCard.jsx";
+
+interface Blog {
+  _id: string;
+  title: string;
+  category: string;
+  tags?: string[];
+  content?: string;
+  imageCloudUrl?: string;
+  author?: {
+    username?: string;
+    profilePicture?: string;
+  };
+  likes?: number;
+  views?: number;
+  comments?: number;
+  createdAt?: string;
+  readTime?: number;
+}
+
+const { tagName } = Astro.params;
+
+const baseURL = new URL(Astro.request.url).origin;
+const response = await fetch(`${baseURL}/api/tag/${tagName}.json`);
+const blogs: Blog[] = await response.json();
+---
+
+<MainLayout title={`Tag: ${tagName}`}>
+  <section class="bg-white text-black min-h-screen px-4 py-8">
+    <h1 class="text-4xl font-extrabold text-center mb-10">
+      Blogs in <span class="text-blue-600">#{tagName}</span>
+    </h1>
+
+    {blogs.length === 0 ? (
+      <p class="text-center text-gray-600">No blogs found.</p>
+    ) : (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {blogs.map((blog) => (
+          <BlogCard
+            blog={blog}
+            category={blog.category}
+            title={blog.title}
+            excerpt={blog.content?.substring(0, 100) ?? ""}
+            readTime={blog.readTime ?? 3}
+            publishedAt={blog.createdAt}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+</MainLayout>
