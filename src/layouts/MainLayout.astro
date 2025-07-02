@@ -1,6 +1,7 @@
 ---
 import Navbar from '../components/Layout/Navbar.astro';
 import Footer from '../components/Layout/Footer.astro';
+import Sidebar from '../components/Layout/sidebar.astro'
 import { SITE_TITLE, SITE_DESCRIPTION } from '../constants';
 
 interface Props {
@@ -15,21 +16,25 @@ const pageTitle = `${SITE_TITLE} - ${title}`;
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
+    <!-- HEAD giữ nguyên như bạn đã viết -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <title>{pageTitle}</title>
     <meta name="description" content={SITE_DESCRIPTION} />
     <meta name="theme-color" content="#ffffff" />
-    
     <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/styles/main.css" as="style" />
-    
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-    
     <link rel="stylesheet" href="/styles/main.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
-
+    <script 
+      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"
+      integrity="sha512-BJ/5sR2hFxQTKin/55JQCcMTObShDBAmVjL/3NR/MVcrhyOazJjAgvROem03+HYyGw16SVdSfoWCFGr9syxAKA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
+    <link rel="manifest" href="/manifest.json" />
     <style is:inline>
       :root {
         --color-primary: #2563eb;
@@ -54,6 +59,10 @@ const pageTitle = `${SITE_TITLE} - ${title}`;
         box-sizing: inherit;
       }
 
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Inter', sans-serif;
+      }
+
       .container {
         width: 100%;
         max-width: 1280px;
@@ -61,34 +70,30 @@ const pageTitle = `${SITE_TITLE} - ${title}`;
         margin-right: auto;
       }
     </style>
-
-    <script 
-      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"
-      integrity="sha512-BJ/5sR2hFxQTKin/55JQCcMTObShDBAmVjL/3NR/MVcrhyOazJjAgvROem03+HYyGw16SVdSfoWCFGr9syxAKA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-      defer
-    ></script>
-
-    <link rel="manifest" href="/manifest.json" />
   </head>
   
   <body class="flex flex-col min-h-screen relative overflow-x-hidden">
-    <!-- Gradient background layer (nếu cần vẫn giữ) -->
+    <!-- Gradient background -->
     <div class="absolute inset-0 -z-10 bg-gradient-to-br from-slate-50 via-white to-blue-50"></div>
 
     <!-- Navbar -->
     <Navbar />
 
-    <!-- Main content -->
-    <main class="flex-grow px-4 sm:px-6 lg:px-8 py-8">
-      <slot />
-    </main>
+    <!-- Layout content -->
+    <div class="flex flex-grow">
+      <!-- Sidebar -->
+      <Sidebar class="w-64 hidden md:block" />
+
+      <!-- Main content -->
+      <main class="flex-grow px-4 sm:px-6 lg:px-8 py-8">
+        <slot />
+      </main>
+    </div>
 
     <!-- Footer -->
     <Footer />
 
-    <!-- Toast container (chỉ tải khi cần) -->
+    <!-- Toast container (optional) -->
     {Astro.props.needToast && (
       <script is:inline>
         if (typeof window !== 'undefined') {
@@ -99,7 +104,6 @@ const pageTitle = `${SITE_TITLE} - ${title}`;
     )}
 
     <script src="/scripts/main.js" defer></script>
-
     <script is:inline>
       if ('loading' in HTMLImageElement.prototype) {
         document.querySelectorAll('img[loading="lazy"]').forEach(img => {

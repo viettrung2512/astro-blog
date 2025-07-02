@@ -135,7 +135,7 @@ const BlogContent = ({ blogId }) => {
             </div>
           </div>
           <div className="px-6 py-8">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
               {blog.title}
             </h1>
 
