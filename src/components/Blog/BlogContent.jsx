@@ -13,7 +13,7 @@ import {
   User,
 } from "lucide-react";
 
-const BlogContent = () => {
+const BlogContent = ({ blogId }) => {
   const id = window.location.pathname.split("/").pop();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -1,9 +1,8 @@
 export async function GET() {
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const token = import.meta.env.TOKEN;
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/posts`, {
+    const res = await fetch(`http://localhost:8080/api/posts`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,

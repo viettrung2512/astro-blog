@@ -1,6 +1,6 @@
 ---
-import MainLayout from "../../layouts/MainLayout.astro";
-import BlogCard from "../../components/Blog/BlogCard.jsx";
+import MainLayout from "../../layouts/MainLayout.astro"
+import WithState from "../../components/Blog/WithState.jsx"
 
 interface Blog {
   _id: string;
@@ -18,13 +18,15 @@ interface Blog {
   comments?: number;
   createdAt?: string;
   readTime?: number;
+  likeCnt?: number;
+  liked?: boolean;
+  saved?: boolean;
 }
 
-const { tagName } = Astro.params;
-
-const baseURL = new URL(Astro.request.url).origin;
-const response = await fetch(`${baseURL}/api/tag/${tagName}.json`);
-const blogs: Blog[] = await response.json();
+const { tagName } = Astro.params
+const baseURL = new URL(Astro.request.url).origin
+const response = await fetch(`${baseURL}/api/tag/${tagName}.json`)
+const blogs: Blog[] = await response.json()
 ---
 
 <MainLayout title={`Tag: ${tagName}`}>
@@ -33,21 +35,6 @@ const blogs: Blog[] = await response.json();
       Blogs in <span class="text-blue-600">#{tagName}</span>
     </h1>
 
-    {blogs.length === 0 ? (
-      <p class="text-center text-gray-600">No blogs found.</p>
-    ) : (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {blogs.map((blog) => (
-          <BlogCard
-            blog={blog}
-            category={blog.category}
-            title={blog.title}
-            excerpt={blog.content?.substring(0, 100) ?? ""}
-            readTime={blog.readTime ?? 3}
-            publishedAt={blog.createdAt}
-          />
-        ))}
-      </div>
-    )}
+    <WithState tag={tagName} client:load />
   </section>
 </MainLayout>

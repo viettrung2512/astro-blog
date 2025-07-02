@@ -1,6 +1,7 @@
 ---
 import BlogContent from "../../components/Blog/BlogContent";
 import Navbar from "../../components/Layout/Navbar.astro";
+const { id } = Astro.params;
 ---
 
 <html lang="en">
@@ -9,6 +10,7 @@ import Navbar from "../../components/Layout/Navbar.astro";
     <title>Chi tiết bài viết</title>
   </head>
   <body class="bg-white">
-    <BlogContent client:only="react" />
+    <BlogContent client:only="react" blogId={id} />
+
   </body>
 </html>

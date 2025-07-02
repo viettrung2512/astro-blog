@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
 import { FaBookmark } from "react-icons/fa";
-
+import { useState, useEffect } from "react";
 
 const SaveButton = ({ blog, setBlogs, isSaved, setIsSaved }) => {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+    }
+  }, []);
 
   const handleToggleSavePost = async (e) => {
     e.stopPropagation();
@@ -45,8 +52,9 @@ const SaveButton = ({ blog, setBlogs, isSaved, setIsSaved }) => {
   return (
     <div
       onClick={handleToggleSavePost}
-      className={`flex items-center space-x-1 cursor-pointer ${isSaved ? "text-yellow-500" : "hover:text-yellow-500"
-        }`}
+      className={`flex items-center space-x-1 cursor-pointer ${
+        isSaved ? "text-yellow-500" : "hover:text-yellow-500"
+      }`}
     >
       <FaBookmark />
     </div>

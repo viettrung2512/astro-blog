@@ -1,7 +1,6 @@
 import { FaHeart } from "react-icons/fa";
 import PropTypes from "prop-types";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 
 const LikeButton = ({
   blogId,
@@ -9,10 +8,17 @@ const LikeButton = ({
   isLiked: initialIsLiked,
   setBlogs,
 }) => {
-  const token = localStorage.getItem("token");
   const [isLiked, setIsLiked] = useState(initialIsLiked);
   const [likes, setLikes] = useState(initialLikes);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+    }
+  }, []);
 
   const handleToggleLike = async (e) => {
     e.stopPropagation();
@@ -29,15 +35,14 @@ const LikeButton = ({
 
     try {
       setIsProcessing(true);
-      
+
       // Optimistic update
       const newIsLiked = !isLiked;
       const newLikes = newIsLiked ? likes + 1 : likes - 1;
-      
+
       setIsLiked(newIsLiked);
       setLikes(newLikes);
 
-      // Gọi API
       const response = await fetch(url, {
         method,
         headers: {
@@ -45,14 +50,12 @@ const LikeButton = ({
         },
       });
 
-      if (!response.ok) {
-        throw new Error("Lỗi API");
-      }
+      if (!response.ok) throw new Error("Lỗi API");
 
-      // Cập nhật danh sách blog tổng thể
+      // Cập nhật danh sách blog
       if (setBlogs) {
-        setBlogs(prevBlogs =>
-          prevBlogs.map(blog =>
+        setBlogs((prevBlogs) =>
+          prevBlogs.map((blog) =>
             blog._id === blogId
               ? { ...blog, likeCnt: newLikes, liked: newIsLiked }
               : blog
@@ -61,7 +64,6 @@ const LikeButton = ({
       }
     } catch (error) {
       console.error("Lỗi khi like/unlike:", error);
-      // Revert state nếu có lỗi
       setIsLiked(initialIsLiked);
       setLikes(initialLikes);
     } finally {

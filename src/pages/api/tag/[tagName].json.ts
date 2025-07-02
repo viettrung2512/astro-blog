@@ -1,12 +1,11 @@
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ params }) => {
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const token = import.meta.env.TOKEN;
   const { tagName } = params;
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/posts`, {
+    const res = await fetch(`http://localhost:8080/api/posts`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
