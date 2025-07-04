@@ -6,7 +6,6 @@ import {
   BookOpen,
   Calendar,
   Trash2,
-  Search,
   RotateCcw,
   ExternalLink,
   Heart,
@@ -130,11 +129,39 @@ const HistoryPage = () => {
     setShowDeleteConfirm(true)
   }
 
-  const confirmDelete = () => {
-    // Implement delete functionality here
+const confirmDelete = async () => {
+  const token = localStorage.getItem("token")
+  if (!token) {
+    setError("Bạn cần đăng nhập để xoá lịch sử.")
+    return
+  }
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/history/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ ids: selectedItems }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.message || "Xóa lịch sử thất bại.")
+    }
+
+    // Cập nhật lại danh sách sau khi xóa
+    setHistory((prev) => prev.filter((item) => !selectedItems.includes(item._id)))
     setSelectedItems([])
     setShowDeleteConfirm(false)
+  } catch (err) {
+    setError(err.message)
+    setShowDeleteConfirm(false)
   }
+}
+
 
   const formatTimeAgo = (timestamp) => {
     const now = new Date()
@@ -291,7 +318,7 @@ const HistoryPage = () => {
                 {selectedItems.length > 0 && (
                   <button
                     onClick={handleDeleteSelected}
-                    className="px-4 py-3 bg-red-500 text-white rounded-2xl hover:bg-red-600 transition-colors duration-200 flex items-center space-x-2"
+                    className="px-4 py-3 bg-red-500 text-black rounded-2xl hover:bg-red-600 transition-colors duration-200 flex items-center space-x-2"
                   >
                     <Trash2 className="h-4 w-4" />
                     <span>Delete ({selectedItems.length})</span>
@@ -443,10 +470,7 @@ const HistoryPage = () => {
                           </div>
                         </div>
                       </div>
-
-                      {/* Progress Bar */}
-                      <div className="h-1 bg-gradient-to-r from-blue-500 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-                    </div>
+                   </div>
                   ))}
                 </div>
               </div>
@@ -509,7 +533,7 @@ const HistoryPage = () => {
                 </button>
                 <button
                   onClick={confirmDelete}
-                  className="flex-1 px-6 py-3 bg-red-500 text-white font-semibold rounded-2xl hover:bg-red-600 transition-colors duration-200"
+                  className="flex-1 px-6 py-3 bg-red-500 text-black font-semibold rounded-2xl hover:bg-red-600 transition-colors duration-200"
                 >
                   Delete
                 </button>
