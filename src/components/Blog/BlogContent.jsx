@@ -171,7 +171,7 @@ const BlogContent = ({ blogId }) => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-6xl mx-auto py-8">
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-3">
@@ -326,7 +326,7 @@ const BlogContent = ({ blogId }) => {
             <div className="mt-8 bg-white rounded-xl shadow-sm p-6 sm:p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <MessageCircle className="h-6 w-6 mr-3 text-blue-600" />
-                Discussion ({blog.commentCount || 0})
+                Discussion 
               </h2>
               <CommentButton blogId={id} />
             </div>

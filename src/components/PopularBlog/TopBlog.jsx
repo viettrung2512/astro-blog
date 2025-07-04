@@ -24,7 +24,7 @@ const TopBlog = () => {
 
         setBlogs(sortedBlogs);
       } catch (error) {
-        console.error("Lỗi khi lấy bài viết nhiều like:", error);
+        console.error("Error fetching most liked posts:", error);
         setBlogs([]);
       } finally {
         setLoading(false);
@@ -40,7 +40,7 @@ const TopBlog = () => {
 
   return blogs.length === 0 ? (
     <p className="text-center text-gray-500 text-lg">
-      Không có bài viết nào để hiển thị.
+      No posts to display.
     </p>
   ) : (
     <BlogList blogs={blogs} setBlogs={setBlogs} />

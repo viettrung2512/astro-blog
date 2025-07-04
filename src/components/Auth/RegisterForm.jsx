@@ -25,12 +25,12 @@ const RegisterForm = () => {
       setMessage(data.message);
       setError('');
     } else {
-      setError(data.message || 'Đăng ký thất bại');
+      setError(data.message || 'Registration failed');
       setMessage('');
     }
   } catch (err) {
-    console.error('Lỗi fetch:', err); 
-    setError('Đăng ký thất bại (kết nối máy chủ)');
+    console.error('Fetch error:', err); 
+    setError('Registration failed (server connection)');
     setMessage('');
   }
 };
@@ -39,15 +39,15 @@ const RegisterForm = () => {
   return (
    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
   <div className="sm:mx-auto sm:w-full sm:max-w-md">
-    <h1 className="text-center text-3xl font-extrabold text-gray-900 mb-2">Đăng ký tài khoản</h1>
-    <p className="text-center text-sm text-gray-600">Tạo tài khoản để bắt đầu trải nghiệm</p>
+    <h1 className="text-center text-3xl font-extrabold text-gray-900 mb-2">Register Account</h1>
+    <p className="text-center text-sm text-gray-600">Create an account to start experiencing</p>
   </div>
 
   <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">Họ tên</label>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
           <div className="mt-1">
             <input
               id="name"
@@ -74,7 +74,7 @@ const RegisterForm = () => {
         </div>
 
         <div>
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700">Tên đăng nhập</label>
+          <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
           <div className="mt-1">
             <input
               id="username"
@@ -87,7 +87,7 @@ const RegisterForm = () => {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Mật khẩu</label>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
           <div className="mt-1">
             <input
               id="password"
@@ -105,7 +105,7 @@ const RegisterForm = () => {
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Đăng ký
+            Register
           </button>
         </div>
       </form>
@@ -122,12 +122,12 @@ const RegisterForm = () => {
         </div>
       )}
       <p className="mt-6 text-sm text-center text-gray-600">
-            Đã có tài khoản?{" "}
+            Already have an account?{" "}
             <a
               href="/login"
               className="text-blue-500 hover:text-blue-700 hover:underline"
             >
-              Đăng nhập
+              Login
             </a>
           </p>
     </div>

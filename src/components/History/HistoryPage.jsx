@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import {
   Clock,
   BookOpen,
@@ -14,27 +14,27 @@ import {
   HistoryIcon,
   AlertCircle,
   RefreshCw,
-} from "lucide-react"
-import LoadingSpinner from "../LoadingSpinner"
+} from "lucide-react";
+import LoadingSpinner from "../LoadingSpinner";
 
 const HistoryPage = () => {
-  const [history, setHistory] = useState([])
-  const [filteredHistory, setFilteredHistory] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filterPeriod, setFilterPeriod] = useState("all")
-  const [sortOrder, setSortOrder] = useState("newest")
-  const [selectedItems, setSelectedItems] = useState([])
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [history, setHistory] = useState([]);
+  const [filteredHistory, setFilteredHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterPeriod, setFilterPeriod] = useState("all");
+  const [sortOrder, setSortOrder] = useState("newest");
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
     const fetchHistory = async () => {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
       if (!token) {
-        setError("Bạn cần đăng nhập để xem lịch sử.")
-        setLoading(false)
-        return
+        setError("Bạn cần đăng nhập để xem lịch sử.");
+        setLoading(false);
+        return;
       }
 
       try {
@@ -42,155 +42,165 @@ const HistoryPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
+        });
 
         if (!response.ok) {
-          const data = await response.text()
-          console.error("Error Response:", data)
-          throw new Error(data || "Lỗi khi tải lịch sử.")
+          const data = await response.text();
+          console.error("Error Response:", data);
+          throw new Error(data || "Lỗi khi tải lịch sử.");
         }
 
-        const data = await response.json()
-        setHistory(data.data.history)
-        setFilteredHistory(data.data.history)
+        const data = await response.json();
+        setHistory(data.data.history);
+        setFilteredHistory(data.data.history);
       } catch (err) {
-        setError(err.message)
+        setError(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchHistory()
-  }, [])
+    fetchHistory();
+  }, []);
 
   // Filter and search functionality
   useEffect(() => {
-    let filtered = [...history]
+    let filtered = [...history];
 
     // Search filter
     if (searchTerm) {
       filtered = filtered.filter((item) =>
-        item.details?.postId?.title?.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
+        item.details?.postId?.title
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
     }
 
     // Time period filter
     if (filterPeriod !== "all") {
-      const now = new Date()
-      const filterDate = new Date()
+      const now = new Date();
+      const filterDate = new Date();
 
       switch (filterPeriod) {
         case "today":
-          filterDate.setHours(0, 0, 0, 0)
-          break
+          filterDate.setHours(0, 0, 0, 0);
+          break;
         case "week":
-          filterDate.setDate(now.getDate() - 7)
-          break
+          filterDate.setDate(now.getDate() - 7);
+          break;
         case "month":
-          filterDate.setMonth(now.getMonth() - 1)
-          break
+          filterDate.setMonth(now.getMonth() - 1);
+          break;
         default:
-          break
+          break;
       }
 
-      filtered = filtered.filter((item) => new Date(item.timestamp) >= filterDate)
+      filtered = filtered.filter(
+        (item) => new Date(item.timestamp) >= filterDate
+      );
     }
 
     // Sort
     filtered.sort((a, b) => {
-      const dateA = new Date(a.timestamp)
-      const dateB = new Date(b.timestamp)
-      return sortOrder === "newest" ? dateB - dateA : dateA - dateB
-    })
+      const dateA = new Date(a.timestamp);
+      const dateB = new Date(b.timestamp);
+      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+    });
 
-    setFilteredHistory(filtered)
-  }, [history, searchTerm, filterPeriod, sortOrder])
+    setFilteredHistory(filtered);
+  }, [history, searchTerm, filterPeriod, sortOrder]);
 
   const handleItemClick = (item) => {
-    const postId = item.details?.postId?._id
+    const postId = item.details?.postId?._id;
     if (postId) {
-      window.location.href = `/articles/${postId}`
+      window.location.href = `/articles/${postId}`;
     }
-  }
+  };
 
   const handleSelectItem = (itemId) => {
-    setSelectedItems((prev) => (prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]))
-  }
+    setSelectedItems((prev) =>
+      prev.includes(itemId)
+        ? prev.filter((id) => id !== itemId)
+        : [...prev, itemId]
+    );
+  };
 
   const handleSelectAll = () => {
     if (selectedItems.length === filteredHistory.length) {
-      setSelectedItems([])
+      setSelectedItems([]);
     } else {
-      setSelectedItems(filteredHistory.map((item) => item._id))
+      setSelectedItems(filteredHistory.map((item) => item._id));
     }
-  }
+  };
 
   const handleDeleteSelected = () => {
-    setShowDeleteConfirm(true)
-  }
+    setShowDeleteConfirm(true);
+  };
 
-const confirmDelete = async () => {
-  const token = localStorage.getItem("token")
-  if (!token) {
-    setError("Bạn cần đăng nhập để xoá lịch sử.")
-    return
-  }
-
-  try {
-    const response = await fetch(`http://localhost:8080/api/history/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ ids: selectedItems }),
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      throw new Error(data.message || "Xóa lịch sử thất bại.")
+  const confirmDelete = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Bạn cần đăng nhập để xoá lịch sử.");
+      return;
     }
 
-    // Cập nhật lại danh sách sau khi xóa
-    setHistory((prev) => prev.filter((item) => !selectedItems.includes(item._id)))
-    setSelectedItems([])
-    setShowDeleteConfirm(false)
-  } catch (err) {
-    setError(err.message)
-    setShowDeleteConfirm(false)
-  }
-}
+    try {
+      const response = await fetch(`http://localhost:8080/api/history/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ids: selectedItems }),
+      });
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Xóa lịch sử thất bại.");
+      }
+
+      // Cập nhật lại danh sách sau khi xóa
+      setHistory((prev) =>
+        prev.filter((item) => !selectedItems.includes(item._id))
+      );
+      setSelectedItems([]);
+      setShowDeleteConfirm(false);
+    } catch (err) {
+      setError(err.message);
+      setShowDeleteConfirm(false);
+    }
+  };
 
   const formatTimeAgo = (timestamp) => {
-    const now = new Date()
-    const time = new Date(timestamp)
-    const diffInSeconds = Math.floor((now - time) / 1000)
+    const now = new Date();
+    const time = new Date(timestamp);
+    const diffInSeconds = Math.floor((now - time) / 1000);
 
-    if (diffInSeconds < 60) return "Vừa xem"
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} phút trước`
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} giờ trước`
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} ngày trước`
-    return time.toLocaleDateString("vi-VN")
-  }
+    if (diffInSeconds < 60) return "Vừa xem";
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} phút trước`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} giờ trước`;
+    if (diffInSeconds < 604800)
+      return `${Math.floor(diffInSeconds / 86400)} ngày trước`;
+    return time.toLocaleDateString("vi-VN");
+  };
 
   const groupHistoryByDate = (historyItems) => {
-    const groups = {}
+    const groups = {};
     historyItems.forEach((item) => {
-      const date = new Date(item.timestamp).toDateString()
+      const date = new Date(item.timestamp).toDateString();
       if (!groups[date]) {
-        groups[date] = []
+        groups[date] = [];
       }
-      groups[date].push(item)
-    })
-    return groups
-  }
+      groups[date].push(item);
+    });
+    return groups;
+  };
 
   if (loading) {
-    return (
-      <LoadingSpinner/>
-    )
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -200,7 +210,9 @@ const confirmDelete = async () => {
           <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <AlertCircle className="h-10 w-10 text-red-500" />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Oops! Something went wrong</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            Oops! Something went wrong
+          </h3>
           <p className="text-gray-600 mb-8 leading-relaxed">{error}</p>
           <button
             onClick={() => window.location.reload()}
@@ -211,10 +223,10 @@ const confirmDelete = async () => {
           </button>
         </div>
       </div>
-    )
+    );
   }
 
-  const groupedHistory = groupHistoryByDate(filteredHistory)
+  const groupedHistory = groupHistoryByDate(filteredHistory);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden">
@@ -246,7 +258,8 @@ const confirmDelete = async () => {
                     Reading History
                   </h1>
                   <p className="text-gray-600 mt-1">
-                    {filteredHistory.length} articles • Last updated {new Date().toLocaleDateString("vi-VN")}
+                    {filteredHistory.length} articles • Last updated{" "}
+                    {new Date().toLocaleDateString("vi-VN")}
                   </p>
                 </div>
               </div>
@@ -257,7 +270,9 @@ const confirmDelete = async () => {
                   <div className="flex items-center space-x-3">
                     <BookOpen className="h-6 w-6 text-blue-600" />
                     <div>
-                      <p className="text-2xl font-bold text-blue-900">{history.length}</p>
+                      <p className="text-2xl font-bold text-blue-900">
+                        {history.length}
+                      </p>
                       <p className="text-sm text-blue-600">Total Read</p>
                     </div>
                   </div>
@@ -267,7 +282,10 @@ const confirmDelete = async () => {
                     <Clock className="h-6 w-6 text-purple-600" />
                     <div>
                       <p className="text-2xl font-bold text-purple-900">
-                        {filterPeriod === "today" ? groupedHistory[new Date().toDateString()]?.length || 0 : "∞"}
+                        {filterPeriod === "today"
+                          ? groupedHistory[new Date().toDateString()]?.length ||
+                            0
+                          : "∞"}
                       </p>
                       <p className="text-sm text-purple-600">Today</p>
                     </div>
@@ -283,7 +301,7 @@ const confirmDelete = async () => {
           <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl p-6 border border-white/50">
             <div className="flex flex-col lg:flex-row gap-4">
               {/* Search Bar */}
-              <div className="flex-1 relative"> 
+              <div className="flex-1 relative">
                 <input
                   type="text"
                   placeholder="Search articles..."
@@ -337,11 +355,14 @@ const confirmDelete = async () => {
                     onChange={handleSelectAll}
                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
-                  <span className="text-sm text-gray-600">Select all ({filteredHistory.length} items)</span>
+                  <span className="text-sm text-gray-600">
+                    Select all ({filteredHistory.length} items)
+                  </span>
                 </label>
 
                 <div className="text-sm text-gray-500">
-                  {selectedItems.length > 0 && `${selectedItems.length} selected`}
+                  {selectedItems.length > 0 &&
+                    `${selectedItems.length} selected`}
                 </div>
               </div>
             )}
@@ -359,7 +380,7 @@ const confirmDelete = async () => {
                     <div className="flex items-center space-x-3">
                       <Calendar className="h-5 w-5 text-blue-600" />
                       <span className="font-semibold text-gray-900">
-                        {new Date(date).toLocaleDateString("vi-VN", {
+                        {new Date(date).toLocaleDateString("en-US", {
                           weekday: "long",
                           year: "numeric",
                           month: "long",
@@ -399,7 +420,10 @@ const confirmDelete = async () => {
                             <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                               {item.details?.postId?.imageCloudUrl ? (
                                 <img
-                                  src={item.details.postId.imageCloudUrl || "/placeholder.svg"}
+                                  src={
+                                    item.details.postId.imageCloudUrl ||
+                                    "/placeholder.svg"
+                                  }
                                   alt={item.details?.postId?.title}
                                   className="w-full h-full object-cover rounded-2xl"
                                 />
@@ -410,11 +434,15 @@ const confirmDelete = async () => {
                           </div>
 
                           {/* Article Content */}
-                          <div className="flex-1 min-w-0 cursor-pointer" onClick={() => handleItemClick(item)}>
+                          <div
+                            className="flex-1 min-w-0 cursor-pointer"
+                            onClick={() => handleItemClick(item)}
+                          >
                             <div className="flex items-start justify-between">
                               <div className="flex-1 min-w-0">
                                 <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 leading-tight">
-                                  {item.details?.postId?.title || "Bài viết không tồn tại"}
+                                  {item.details?.postId?.title ||
+                                    "Bài viết không tồn tại"}
                                 </h3>
 
                                 <div className="mt-3 flex items-center space-x-6 text-sm text-gray-500">
@@ -425,8 +453,19 @@ const confirmDelete = async () => {
 
                                   {item.details?.postId?.author && (
                                     <div className="flex items-center space-x-2">
-                                      <User className="h-4 w-4" />
-                                      <span>{item.details.postId.author.name || "Unknown Author"}</span>
+                                      {item.details.postId.author.profilePicture ? (
+                                        <img
+                                          src={item.details.postId.author.profilePicture}
+                                          alt={item.details.postId.author.name || "Author"}
+                                          className="h-6 w-6 rounded-full object-cover"
+                                        />
+                                      ) : (
+                                        <User className="h-4 w-4" />
+                                      )}
+                                      <span>
+                                        {item.details.postId.author.name ||
+                                          "Unknown Author"}
+                                      </span>
                                     </div>
                                   )}
 
@@ -434,14 +473,18 @@ const confirmDelete = async () => {
                                     {item.details?.postId?.likeCnt && (
                                       <div className="flex items-center space-x-1">
                                         <Heart className="h-4 w-4 text-red-500" />
-                                        <span>{item.details.postId.likeCnt}</span>
+                                        <span>
+                                          {item.details.postId.likeCnt}
+                                        </span>
                                       </div>
                                     )}
 
                                     {item.details?.postId?.commentCnt && (
                                       <div className="flex items-center space-x-1">
                                         <MessageSquare className="h-4 w-4 text-blue-500" />
-                                        <span>{item.details.postId.commentCnt}</span>
+                                        <span>
+                                          {item.details.postId.commentCnt}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
@@ -449,7 +492,11 @@ const confirmDelete = async () => {
 
                                 {item.details?.postId?.content && (
                                   <p className="mt-3 text-gray-600 line-clamp-2 leading-relaxed">
-                                    {item.details.postId.content.substring(0, 150)}...
+                                    {item.details.postId.content.substring(
+                                      0,
+                                      150
+                                    )}
+                                    ...
                                   </p>
                                 )}
                               </div>
@@ -458,8 +505,8 @@ const confirmDelete = async () => {
                               <div className="flex-shrink-0 ml-4">
                                 <button
                                   onClick={(e) => {
-                                    e.stopPropagation()
-                                    handleItemClick(item)
+                                    e.stopPropagation();
+                                    handleItemClick(item);
                                   }}
                                   className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 group-hover:translate-x-1"
                                 >
@@ -470,7 +517,7 @@ const confirmDelete = async () => {
                           </div>
                         </div>
                       </div>
-                   </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -481,7 +528,9 @@ const confirmDelete = async () => {
             <div className="w-32 h-32 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-8 shadow-lg">
               <BookOpen className="h-16 w-16 text-gray-400" />
             </div>
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">No History Found</h3>
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">
+              No History Found
+            </h3>
             <p className="text-gray-600 mb-10 max-w-md mx-auto text-lg leading-relaxed">
               {searchTerm || filterPeriod !== "all"
                 ? "No articles match your current filters. Try adjusting your search or filter criteria."
@@ -491,8 +540,8 @@ const confirmDelete = async () => {
               {(searchTerm || filterPeriod !== "all") && (
                 <button
                   onClick={() => {
-                    setSearchTerm("")
-                    setFilterPeriod("all")
+                    setSearchTerm("");
+                    setFilterPeriod("all");
                   }}
                   className="inline-flex items-center px-6 py-3 bg-gray-600 text-white font-semibold rounded-2xl hover:bg-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
@@ -520,9 +569,12 @@ const confirmDelete = async () => {
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Trash2 className="h-8 w-8 text-red-500" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Delete History Items</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Delete History Items
+              </h3>
               <p className="text-gray-600 mb-8">
-                Are you sure you want to delete {selectedItems.length} selected items? This action cannot be undone.
+                Are you sure you want to delete {selectedItems.length} selected
+                items? This action cannot be undone.
               </p>
               <div className="flex gap-4">
                 <button
@@ -543,7 +595,7 @@ const confirmDelete = async () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default HistoryPage
+export default HistoryPage;

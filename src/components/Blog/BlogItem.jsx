@@ -201,7 +201,7 @@ const BlogItem = ({ blog, setBlogs }) => {
 
               {/* Read More Button */}
               <button className="inline-flex items-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 group-hover:translate-x-2">
-                <span>Đọc thêm</span>
+                <span>Read more</span>
                 <svg
                   className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1"
                   fill="none"

@@ -5,6 +5,6 @@ import ProfileWrapper from '../../components/Account/ProfileWrapper';
 const { userId } = Astro.params;
 ---
 
-<MainLayout title={`Hồ sơ`}>
+<MainLayout title={`Profile`}>
     <ProfileWrapper client:only="react" userId={userId} />
 </MainLayout>
