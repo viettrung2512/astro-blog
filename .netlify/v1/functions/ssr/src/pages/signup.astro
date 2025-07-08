@@ -1,0 +1,15 @@
+---
+import RegisterForm from '../components/Auth/RegisterForm.jsx';
+import Navbar from '../components/Layout/Navbar.astro';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign In</title>
+  </head>
+  <body>
+    <Navbar />
+    <RegisterForm client:load />
+  </body>
+</html>

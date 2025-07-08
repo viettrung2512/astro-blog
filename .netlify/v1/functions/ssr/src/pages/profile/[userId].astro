@@ -1,0 +1,10 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import ProfileWrapper from '../../components/Account/ProfileWrapper';
+
+const { userId } = Astro.params;
+---
+
+<MainLayout title={`Profile`}>
+    <ProfileWrapper client:only="react" userId={userId} />
+</MainLayout>

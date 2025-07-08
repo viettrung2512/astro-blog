@@ -1,0 +1,27 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const baseURL = new URL(Astro.request.url).origin;
+const response = await fetch(`${baseURL}/api/tags.json`);
+let tags: string[] = await response.json();
+
+if (!Array.isArray(tags)) {
+  tags = [];
+}
+---
+
+<MainLayout title="Tags Page">
+  <h1 class="text-3xl font-bold my-6 text-center">Tags</h1>
+  <div class="flex flex-wrap gap-4 justify-center px-4">
+    {
+      tags.map((tag) => (
+        <a
+          href={`/tag/${tag}`}
+          class="text-black px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-all"
+        >
+          #{tag}
+        </a>
+      ))
+    }
+  </div>
+</MainLayout>

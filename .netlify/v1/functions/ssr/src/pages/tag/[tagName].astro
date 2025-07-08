@@ -1,0 +1,40 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro"
+import WithState from "../../components/Blog/WithState.jsx"
+
+interface Blog {
+  _id: string;
+  title: string;
+  category: string;
+  tags?: string[];
+  content?: string;
+  imageCloudUrl?: string;
+  author?: {
+    username?: string;
+    profilePicture?: string;
+  };
+  likes?: number;
+  views?: number;
+  comments?: number;
+  createdAt?: string;
+  readTime?: number;
+  likeCnt?: number;
+  liked?: boolean;
+  saved?: boolean;
+}
+
+const { tagName } = Astro.params
+const baseURL = new URL(Astro.request.url).origin
+const response = await fetch(`${baseURL}/api/tag/${tagName}.json`)
+const blogs: Blog[] = await response.json()
+---
+
+<MainLayout title={`Tag: ${tagName}`}>
+  <section class="bg-white text-black min-h-screen px-4 py-8">
+    <h1 class="text-4xl font-extrabold text-center mb-10">
+      Blogs in <span class="text-blue-600">#{tagName}</span>
+    </h1>
+
+    <WithState tag={tagName} client:load />
+  </section>
+</MainLayout>

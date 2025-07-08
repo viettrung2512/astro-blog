@@ -1,0 +1,9 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import BlogContent from "../../components/Blog/BlogContent.jsx";
+const { id } = Astro.params;
+---
+
+<MainLayout title="Blog detail">
+  <BlogContent client:only="react" blogId={id} />
+</MainLayout>
