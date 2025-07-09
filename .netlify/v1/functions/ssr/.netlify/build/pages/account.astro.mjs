@@ -1,7 +1,7 @@
 /* empty css                                 */
-import { c as createComponent, b as renderHead, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_CCKAbskl.mjs';
+import { c as createComponent, b as renderHead, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_Bw3BlwzH.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_viJGY8AB.mjs';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';

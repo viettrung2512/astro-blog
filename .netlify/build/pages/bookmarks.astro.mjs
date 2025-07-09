@@ -1,7 +1,7 @@
 /* empty css                                 */
-import { c as createComponent, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_CCKAbskl.mjs';
+import { c as createComponent, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_Bw3BlwzH.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_viJGY8AB.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Bookmarks = createComponent(($$result, $$props, $$slots) => {

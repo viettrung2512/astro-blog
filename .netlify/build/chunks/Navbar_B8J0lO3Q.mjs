@@ -1,8 +1,8 @@
-import { c as createComponent, a as renderTemplate, r as renderComponent, m as maybeRenderHead } from './astro/server_CCKAbskl.mjs';
+import { c as createComponent, a as renderTemplate, r as renderComponent, m as maybeRenderHead } from './astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
 import '@astrojs/internal-helpers/path';
 import '@astrojs/internal-helpers/remote';
-import { $ as $$Image } from './_astro_assets_RpBJU5su.mjs';
+import { $ as $$Image } from './_astro_assets_XfmHOzyT.mjs';
 
 const logo = new Proxy({"src":"/_astro/logo.Bp-tjQcT.png","width":200,"height":200,"format":"png"}, {
 						get(target, name, receiver) {

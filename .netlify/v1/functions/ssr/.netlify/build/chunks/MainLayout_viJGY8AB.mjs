@@ -1,8 +1,8 @@
-import { c as createComponent, m as maybeRenderHead, a as renderTemplate, d as createAstro, f as renderScript, e as addAttribute, r as renderComponent, g as renderSlot, b as renderHead } from './astro/server_CCKAbskl.mjs';
+import { c as createComponent, m as maybeRenderHead, a as renderTemplate, d as createAstro, f as renderScript, e as addAttribute, r as renderComponent, g as renderSlot, b as renderHead } from './astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
-import { $ as $$Navbar } from './Navbar_C2xo4H2M.mjs';
+import { $ as $$Navbar } from './Navbar_B8J0lO3Q.mjs';
 import 'clsx';
-import { g as getCollection } from './_astro_content_DcsyUJAl.mjs';
+import { g as getCollection } from './_astro_content_CbpqLP-O.mjs';
 /* empty css                         */
 
 const $$Footer = createComponent(async ($$result, $$props, $$slots) => {

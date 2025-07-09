@@ -1,7 +1,7 @@
 /* empty css                                 */
-import { c as createComponent, d as createAstro, r as renderComponent, b as renderHead, a as renderTemplate } from '../chunks/astro/server_CCKAbskl.mjs';
+import { c as createComponent, d as createAstro, r as renderComponent, b as renderHead, a as renderTemplate } from '../chunks/astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
-import { $ as $$Navbar } from '../chunks/Navbar_C2xo4H2M.mjs';
+import { $ as $$Navbar } from '../chunks/Navbar_B8J0lO3Q.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro();

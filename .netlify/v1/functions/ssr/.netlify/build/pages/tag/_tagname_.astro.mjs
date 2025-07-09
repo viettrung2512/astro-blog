@@ -1,7 +1,7 @@
 /* empty css                                    */
-import { c as createComponent, d as createAstro, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_CCKAbskl.mjs';
+import { c as createComponent, d as createAstro, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../../chunks/MainLayout_Bw3BlwzH.mjs';
+import { $ as $$MainLayout } from '../../chunks/MainLayout_viJGY8AB.mjs';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';

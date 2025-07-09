@@ -1,5 +1,5 @@
 import { joinPaths, isRemotePath } from '@astrojs/internal-helpers/path';
-import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, l as MissingImageDimension, n as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, o as UnsupportedImageConversion, t as toStyleString, p as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, q as ExpectedImageOptions, s as ExpectedNotESMImage, v as InvalidImageService, c as createComponent, d as createAstro, w as ImageMissingAlt, m as maybeRenderHead, e as addAttribute, x as spreadAttributes, a as renderTemplate, y as ExperimentalFontsNotEnabled, z as FontFamilyNotFound, u as unescapeHTML } from './astro/server_CCKAbskl.mjs';
+import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, l as MissingImageDimension, n as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, o as UnsupportedImageConversion, t as toStyleString, p as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, q as ExpectedImageOptions, s as ExpectedNotESMImage, v as InvalidImageService, c as createComponent, d as createAstro, w as ImageMissingAlt, m as maybeRenderHead, e as addAttribute, x as spreadAttributes, a as renderTemplate, y as ExperimentalFontsNotEnabled, z as FontFamilyNotFound, u as unescapeHTML } from './astro/server_DsJb3smy.mjs';
 import { D as DEFAULT_OUTPUT_FORMAT, a as VALID_SUPPORTED_FORMATS, b as DEFAULT_HASH_PROPS } from './consts_BmVDRGlB.mjs';
 import { isRemoteAllowed } from '@astrojs/internal-helpers/remote';
 import * as mime from 'mrmime';
@@ -1186,7 +1186,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_Dvj8spbm.mjs'
+      './sharp_DyVh25UD.mjs'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;
@@ -1257,36 +1257,34 @@ async function getImage$1(options, imageConfig) {
     }
   }
   resolvedOptions.src = clonedSrc;
-  const layout = options.layout ?? imageConfig.experimentalLayout;
-  if (imageConfig.experimentalResponsiveImages && layout) {
+  const layout = options.layout ?? imageConfig.layout ?? "none";
+  if (resolvedOptions.priority) {
+    resolvedOptions.loading ??= "eager";
+    resolvedOptions.decoding ??= "sync";
+    resolvedOptions.fetchpriority ??= "high";
+    delete resolvedOptions.priority;
+  } else {
+    resolvedOptions.loading ??= "lazy";
+    resolvedOptions.decoding ??= "async";
+    resolvedOptions.fetchpriority ??= "auto";
+  }
+  if (layout !== "none") {
     resolvedOptions.widths ||= getWidths({
       width: resolvedOptions.width,
       layout,
       originalWidth,
-      breakpoints: imageConfig.experimentalBreakpoints?.length ? imageConfig.experimentalBreakpoints : isLocalService(service) ? LIMITED_RESOLUTIONS : DEFAULT_RESOLUTIONS
+      breakpoints: imageConfig.breakpoints?.length ? imageConfig.breakpoints : isLocalService(service) ? LIMITED_RESOLUTIONS : DEFAULT_RESOLUTIONS
     });
     resolvedOptions.sizes ||= getSizesAttribute({ width: resolvedOptions.width, layout });
-    if (resolvedOptions.priority) {
-      resolvedOptions.loading ??= "eager";
-      resolvedOptions.decoding ??= "sync";
-      resolvedOptions.fetchpriority ??= "high";
-    } else {
-      resolvedOptions.loading ??= "lazy";
-      resolvedOptions.decoding ??= "async";
-      resolvedOptions.fetchpriority ??= "auto";
-    }
-    delete resolvedOptions.priority;
     delete resolvedOptions.densities;
-    if (layout !== "none") {
-      resolvedOptions.style = addCSSVarsToStyle(
-        {
-          fit: cssFitValues.includes(resolvedOptions.fit ?? "") && resolvedOptions.fit,
-          pos: resolvedOptions.position
-        },
-        resolvedOptions.style
-      );
-      resolvedOptions["data-astro-image"] = layout;
-    }
+    resolvedOptions.style = addCSSVarsToStyle(
+      {
+        fit: cssFitValues.includes(resolvedOptions.fit ?? "") && resolvedOptions.fit,
+        pos: resolvedOptions.position
+      },
+      resolvedOptions.style
+    );
+    resolvedOptions["data-astro-image"] = layout;
   }
   const validatedOptions = service.validateOptions ? await service.validateOptions(resolvedOptions, imageConfig) : resolvedOptions;
   const srcSetTransforms = service.getSrcSet ? await service.getSrcSet(validatedOptions, imageConfig) : [];
@@ -1344,12 +1342,11 @@ const $$Image = createComponent(async ($$result, $$props, $$slots) => {
   if (typeof props.height === "string") {
     props.height = parseInt(props.height);
   }
-  const layout = props.layout ?? imageConfig.experimentalLayout ?? "none";
-  const useResponsive = imageConfig.experimentalResponsiveImages && layout !== "none";
-  if (useResponsive) {
-    props.layout ??= imageConfig.experimentalLayout;
-    props.fit ??= imageConfig.experimentalObjectFit ?? "cover";
-    props.position ??= imageConfig.experimentalObjectPosition ?? "center";
+  const layout = props.layout ?? imageConfig.layout ?? "none";
+  if (layout !== "none") {
+    props.layout ??= imageConfig.layout;
+    props.fit ??= imageConfig.objectFit ?? "cover";
+    props.position ??= imageConfig.objectPosition ?? "center";
   }
   const image = await getImage(props);
   const additionalAttributes = {};
@@ -1379,12 +1376,12 @@ const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
       pictureAttributes.class = scopedStyleClass;
     }
   }
-  const layout = props.layout ?? imageConfig.experimentalLayout ?? "none";
-  const useResponsive = imageConfig.experimentalResponsiveImages && layout !== "none";
+  const layout = props.layout ?? imageConfig.layout ?? "none";
+  const useResponsive = layout !== "none";
   if (useResponsive) {
-    props.layout ??= imageConfig.experimentalLayout;
-    props.fit ??= imageConfig.experimentalObjectFit ?? "cover";
-    props.position ??= imageConfig.experimentalObjectPosition ?? "center";
+    props.layout ??= imageConfig.layout;
+    props.fit ??= imageConfig.objectFit ?? "cover";
+    props.position ??= imageConfig.objectPosition ?? "center";
   }
   for (const key in props) {
     if (key.startsWith("data-astro-cid")) {
@@ -1454,7 +1451,7 @@ const $$Font = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${preload && data.preloadData.map(({ url, type }) => renderTemplate`<link rel="preload"${addAttribute(url, "href")} as="font"${addAttribute(`font/${type}`, "type")} crossorigin>`)}<style>${unescapeHTML(data.css)}</style>`;
 }, "D:/TMA-intern/TechPeople-blog/astro-blog/node_modules/astro/components/Font.astro", void 0);
 
-const imageConfig = {"endpoint":{"route":"/_image"},"service":{"entrypoint":"astro/assets/services/sharp","config":{}},"domains":[],"remotePatterns":[],"experimentalDefaultStyles":true,"experimentalResponsiveImages":false};
+const imageConfig = {"endpoint":{"route":"/_image"},"service":{"entrypoint":"astro/assets/services/sharp","config":{}},"domains":[],"remotePatterns":[],"responsiveStyles":false};
 							const getImage = async (options) => await getImage$1(options, imageConfig);
 
 const _astro_assets = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
