@@ -2,7 +2,7 @@
 import { c as createComponent, b as renderHead, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
 import { $ as $$MainLayout } from '../chunks/MainLayout_viJGY8AB.mjs';
-import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
+import { jsxs, jsx, Fragment } from 'react/jsx-runtime.js';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { ArrowLeft, X, Camera, AlertCircle, User, Shield, Settings, Edit3, CheckCircle, Mail, Lock, EyeOff, Eye, Save } from 'lucide-react';

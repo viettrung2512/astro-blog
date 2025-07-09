@@ -2,7 +2,7 @@
 import { c as createComponent, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
 import { $ as $$MainLayout } from '../chunks/MainLayout_viJGY8AB.mjs';
-import { jsx, jsxs } from 'react/jsx-runtime';
+import { jsx, jsxs } from 'react/jsx-runtime.js';
 import { useState, useEffect } from 'react';
 import { AlertCircle, RefreshCw, HistoryIcon, BookOpen, Clock, Trash2, Calendar, User, Heart, MessageSquare, ExternalLink, RotateCcw } from 'lucide-react';
 export { renderers } from '../renderers.mjs';

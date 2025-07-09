@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { c as createComponent, b as renderHead, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_DsJb3smy.mjs';
 import 'kleur/colors';
-import { jsxs, jsx } from 'react/jsx-runtime';
+import { jsxs, jsx } from 'react/jsx-runtime.js';
 import { useState } from 'react';
 import { $ as $$Navbar } from '../chunks/Navbar_B8J0lO3Q.mjs';
 export { renderers } from '../renderers.mjs';
