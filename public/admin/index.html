@@ -1,32 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin | CMS</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 20px; }
-  </style>
-</head>
-<body>
-  <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js"></script>
-  <script>
-    // Fix lỗi authentication
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        if (!user) window.netlifyIdentity.on('login', () => {
-          document.location.href = '/admin/';
-        });
-      });
-      window.netlifyIdentity.init();
-    }
-    
-    // Fix lỗi Git Gateway
-    CMS.registerEventListener({
-      name: 'prePublish',
-      handler: ({ entry }) => console.log('Publishing:', entry.get('slug'))
-    });
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netlify CMS</title>
+    <script src="https://unpkg.com/netlify-cms-app@2.15.72/dist/netlify-cms.js"></script>
+  </head>
+  <body>
+    <script>
+      window.CMS.init();
+    </script>
+  </body>
 </html>
