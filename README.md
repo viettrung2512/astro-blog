@@ -12,9 +12,7 @@ The HTML files are available in the `blog-theme` folder. There is no CSS as we u
 
 Install dependencies
 
-```sh
 npm install
-```
 
 ## 🧞 Commands
 
